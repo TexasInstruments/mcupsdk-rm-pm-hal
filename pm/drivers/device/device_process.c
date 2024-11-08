@@ -176,13 +176,13 @@ s32 set_device_handler(u32 *msg_recv)
 
 		/* Check the device state after processing device_set_state function */
 		current_device_state = device_get_state(dev);
-		if ((state == TISCI_MSG_VALUE_DEVICE_SW_STATE_ON) || (state == TISCI_MSG_VALUE_DEVICE_SW_STATE_RETENTION)) {
+		if (state == TISCI_MSG_VALUE_DEVICE_SW_STATE_ON) {
 			if (current_device_state != TISCI_MSG_VALUE_DEVICE_HW_STATE_ON) {
 				ret = -EFAIL;
 			}
-		} else if (state == TISCI_MSG_VALUE_DEVICE_SW_STATE_AUTO_OFF) {
+		} else if ((state == TISCI_MSG_VALUE_DEVICE_SW_STATE_RETENTION) || (state == TISCI_MSG_VALUE_DEVICE_SW_STATE_AUTO_OFF)) {
 			if (current_device_state == TISCI_MSG_VALUE_DEVICE_HW_STATE_TRANS) {
-				/* Device with multiple psc's might be in transition state during the requested state is off because of
+				/* Device with multiple psc's might be in transition state during the requested state is off/retention because of
 				 * some psc's sibling devices might be on which keep that psc's on, this results in mixed state of psc's
 				 * which is an exception to overcome with this exception below condition is written.
 				 */
