@@ -3808,7 +3808,7 @@ const struct clk_data soc_clock_data[257] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= AM62X_FREQ_VALUE_PLLFRACF2_SSMOD_16FFT_MAIN_15,
 		.data		= &clk_data_pllfracf2_ssmod_16fft_main_15.data_pll.data,
-		.flags		= 0,
+		.flags		= CLK_DATA_FLAG_NO_HW_REINIT,
 	},
 	[CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_16_FOUTVCOP_CLK] =			      {
 		.parent		=							      {
@@ -4202,7 +4202,7 @@ const struct clk_data soc_clock_data[257] = {
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
+		.flags	= CLK_DATA_FLAG_NO_HW_REINIT,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_hsdiv1_16fft_main_15_hsdiv0.data_div.data,
 	},
@@ -4212,7 +4212,7 @@ const struct clk_data soc_clock_data[257] = {
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
+		.flags	= CLK_DATA_FLAG_NO_HW_REINIT,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_hsdiv1_16fft_main_15_hsdiv1.data_div.data,
 	},
