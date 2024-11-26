@@ -4802,13 +4802,13 @@ static const struct dev_data j784s4_dev_k3vtm_n16ffc_wkup_0 __attribute__((__sec
 	.n_clocks		= 3,
 	.pm_devgrp		= PM_DEVGRP_00,
 };
-static const struct dev_data j784s4_dev_main2wkupmcu_VD __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const struct dev_data j784s4_dev_main2wkupmcu_VD __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
 		.psc_idx	= J784S4_PSC_INST_J7_WKUP_PSC_WRAP_WKUP_0,
 		.pd		= J784S4_PSC_PD_PD_WKUP,
 		.mod		= J784S4_PSC_LPSC_LPSC_MAIN2WKUPMCU,
 	},
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data j784s4_dev_mcanss_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -6368,13 +6368,13 @@ static const struct dev_data j784s4_dev_wiz16b8m4ct3_main_4 __attribute__((__sec
 	.n_clocks		= 108,
 	.pm_devgrp		= PM_DEVGRP_01,
 };
-static const struct dev_data j784s4_dev_wkupmcu2main_VD __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const struct dev_data j784s4_dev_wkupmcu2main_VD __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
 		.psc_idx	= J784S4_PSC_INST_J7_WKUP_PSC_WRAP_WKUP_0,
 		.pd		= J784S4_PSC_PD_PD_WKUP,
 		.mod		= J784S4_PSC_LPSC_LPSC_WKUPMCU2MAIN,
 	},
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data j784s4_dev_compute_cluster_j7ahp_main_0_dru0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {

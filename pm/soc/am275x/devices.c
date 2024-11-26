@@ -1,5 +1,5 @@
 /*
- * Data version: 241024_102319
+ * Data version: 241113_102144
  *
  * Copyright (C) 2017-2024 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -20,7 +20,6 @@
 
 BUILD_ASSERT_GLOBAL(sizeof(dev_idx_t) == (size_t) 2, dev_idx_t_is_16bit);
 
-#define AM275X_PSC_MULTIPLE_SMS_MAIN_0 0
 #define AM275X_PSC_INST_AM275_MAIN_PSC_WRAP_MAIN_0 0
 #define AM275X_PSC_PD_GP_CORE 0
 #define AM275X_PSC_PD_MAIN_SRAM0 1
@@ -418,25 +417,11 @@ static const struct dev_data am275x_dev_dcc2_main_5 __attribute__((__section__("
 	.n_clocks		= 13,
 	.pm_devgrp		= PM_DEVGRP_00,
 };
-static const struct soc_device_data sms_main_0_domains[3] = {
-	{
-		.psc_idx = AM275X_PSC_INST_AM275_MAIN_PSC_WRAP_MAIN_0,
-		.pd = AM275X_PSC_PD_GP_CORE,
-		.mod = AM275X_PSC_LPSC_LPSC_MAIN_HSM,
-	},
-	{
-		.psc_idx = AM275X_PSC_INST_AM275_MAIN_PSC_WRAP_MAIN_0,
-		.pd = AM275X_PSC_PD_GP_CORE,
-		.mod = AM275X_PSC_LPSC_LPSC_MAIN_MCAN4,
-	},
-	{
-		.psc_idx = PSC_DEV_NONE,
-	},
-};
 static const struct dev_data am275x_dev_sms_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
-		.psc_idx	= PSC_DEV_MULTIPLE,
-		.mod		= AM275X_PSC_MULTIPLE_SMS_MAIN_0,
+		.psc_idx	= AM275X_PSC_INST_AM275_MAIN_PSC_WRAP_MAIN_0,
+		.pd		= AM275X_PSC_PD_GP_CORE,
+		.mod		= AM275X_PSC_LPSC_LPSC_SMS_COM,
 	},
 	.pm_devgrp		= PM_DEVGRP_00,
 };
@@ -1342,20 +1327,20 @@ static const struct lpsc_module_data am275x_am275_main_psc_wrap_main_0_mod_data[
 		.depends_psc_idx	= AM275X_PSC_INST_AM275_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM275X_PSC_LPSC_LPSC_SMS_COM,
 		.lpsc_dev.dev_array	=		{
-			AM275X_DEV_SMS0,
 			DEV_ID_NONE,
+			0,
 		},
-		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
 	},
 	[AM275X_PSC_LPSC_LPSC_MAIN_HSM] =		{
 		.powerdomain		= AM275X_PSC_PD_GP_CORE,
 		.depends_psc_idx	= AM275X_PSC_INST_AM275_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM275X_PSC_LPSC_LPSC_MAIN_TIFS,
 		.lpsc_dev.dev_array	=		{
-			AM275X_DEV_SMS0,
 			DEV_ID_NONE,
+			0,
 		},
-		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
+		.flags			= LPSC_DEPENDS,
 	},
 	[AM275X_PSC_LPSC_LPSC_MAIN_HSM_ISO] =		{
 		.powerdomain		= AM275X_PSC_PD_GP_CORE,
@@ -1365,7 +1350,7 @@ static const struct lpsc_module_data am275x_am275_main_psc_wrap_main_0_mod_data[
 			DEV_ID_NONE,
 			0,
 		},
-		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
+		.flags			= LPSC_DEPENDS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
 	},
 	[AM275X_PSC_LPSC_LPSC_MAIN_IP0] =		{
 		.powerdomain		= AM275X_PSC_PD_GP_CORE,
@@ -1457,7 +1442,7 @@ static const struct lpsc_module_data am275x_am275_main_psc_wrap_main_0_mod_data[
 		.depends		= AM275X_PSC_LPSC_LPSC_MAIN_IP0,
 		.lpsc_dev.dev_array	=		{
 			AM275X_DEV_MCAN4,
-			AM275X_DEV_SMS0,
+			DEV_ID_NONE,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -8779,8 +8764,7 @@ const struct devgroup soc_devgroups[AM275X_PM_DEVGRP_RANGE_ID_MAX] = {
 };
 const size_t soc_devgroup_count = ARRAY_SIZE(soc_devgroups);
 
-const struct soc_device_data *const soc_psc_multiple_domains[1] = {
-	[AM275X_PSC_MULTIPLE_SMS_MAIN_0] = sms_main_0_domains,
+const struct soc_device_data *const soc_psc_multiple_domains[0] = {
 };
 
 const struct dev_data *const soc_device_data_arr[AM275X_DEV_MCASP4_LOCAL_AUXCLK_SEL_DEV_VD + 1U] = {

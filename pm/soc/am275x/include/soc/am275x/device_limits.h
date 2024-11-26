@@ -1,5 +1,5 @@
 /*
- * Data version: 241024_102319
+ * Data version: 241113_102144
  *
  * Copyright (C) 2017-2024, Texas Instruments Incorporated
  * All rights reserved.
@@ -40,7 +40,7 @@
 
 #define SOC_DEVICES_RANGE_ID_MAX 340U
 
-#define SOC_MULTIPLE_DOMAINS_RANGE_ID_MAX 1
+#define SOC_MULTIPLE_DOMAINS_RANGE_ID_MAX 0
 
 
 #endif /* SOC_AM275X_DEVICE_LIMITS_H */
