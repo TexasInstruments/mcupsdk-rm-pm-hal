@@ -3,7 +3,7 @@
  *
  * UDMAP management infrastructure
  *
- * Copyright (C) 2018-2022, Texas Instruments Incorporated
+ * Copyright (C) 2018-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -73,11 +73,15 @@ s32 rm_udmap_init(void);
  *
  * Set the UDMAP driver's initialized flag to false
  *
+ * \param devgrp Device Group that has to be uninitialized
+ * \param rom_deinit Boolean value to indicate whether to reset
+ *                          ROM usage flags or not
+ *
  * \return
  *      SUCCESS - Deinitialized the chosen device group successfully
  *      -E... - Failed to deinitialize the chosen device group
  */
-s32 rm_udmap_deinit(devgrp_t devgrp);
+s32 rm_udmap_deinit(devgrp_t devgrp, sbool rom_deinit);
 
 /**
  * \brief Get the host ID corresponding to a particular DMA channel

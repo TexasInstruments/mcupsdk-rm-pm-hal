@@ -3,7 +3,7 @@
  *
  * am62x soc_ctrl_mmr.h
  *
- * Copyright (C) 2021-2024, Texas Instruments Incorporated
+ * Copyright (C) 2021-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -143,6 +143,9 @@ extern "C" {
 #define VIM_BASE_ADDR           (0x2fff0000U)
 
 #define WKUP_TIMER1_BASE_ADDR   (0x2b110000U)
+
+/* Devgroup having RM resources */
+#define RM_RSRC_DEVGRP          MAIN_DEVGRP
 
 #ifdef __cplusplus
 }

@@ -3,7 +3,7 @@
  *
  * Resource Manager core infrastructure
  *
- * Copyright (C) 2017-2023, Texas Instruments Incorporated
+ * Copyright (C) 2017-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -96,23 +96,23 @@ s32 rm_init(void)
 	return r;
 }
 
-s32 rm_deinit(devgrp_t devgrp)
+s32 rm_deinit(devgrp_t devgrp, sbool rom_deinit)
 {
 	s32 r = SUCCESS;
 
 #ifdef CONFIG_RM_IRQ
 	if (r == SUCCESS) {
-		r = rm_irq_deinit(devgrp);
+		r = rm_irq_deinit(devgrp, rom_deinit);
 	}
 #endif
 #ifdef CONFIG_RM_RA
 	if (r == SUCCESS) {
-		r = rm_ra_deinit(devgrp);
+		r = rm_ra_deinit(devgrp, rom_deinit);
 	}
 #endif
 #ifdef CONFIG_RM_UDMAP
 	if (r == SUCCESS) {
-		r = rm_udmap_deinit(devgrp);
+		r = rm_udmap_deinit(devgrp, rom_deinit);
 	}
 #endif
 #ifdef CONFIG_RM_PROXY

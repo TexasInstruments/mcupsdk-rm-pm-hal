@@ -3,7 +3,7 @@
  *
  * Handlers for Low Power Mode implementation
  *
- * Copyright (C) 2021-2024, Texas Instruments Incorporated
+ * Copyright (C) 2021-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -136,5 +136,14 @@ s32 dm_lpm_get_next_sys_mode(u32 *msg_recv);
  *  \return ret      SUCCESS
  */
 s32 dm_lpm_get_next_host_state(u32 *msg_recv);
+
+/**
+ *  \brief  LPM abort handler Function.
+ *
+ *  \param  msg_recv Pointer to the received and returned message. Same buffer
+ *                   used.
+ *  \return ret      SUCCESS
+ */
+s32 dm_lpm_abort(u32 *msg_recv);
 
 #endif

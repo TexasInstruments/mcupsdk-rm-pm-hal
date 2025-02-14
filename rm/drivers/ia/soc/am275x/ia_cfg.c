@@ -3,9 +3,9 @@
  *
  * Interrupt aggregator driver instance data definition
  *
- * Data version: 241113_102144
+ * Data version: 241217_073541
  *
- * Copyright (C) 2024, Texas Instruments Incorporated
+ * Copyright (C) 2024-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -86,7 +86,7 @@ static struct ia_used_mapping rom_usage_DMASS0_INTAGGR_0[1U] = {
 
 static struct ia_used_mapping rom_usage_unmapped_events_DMASS0_INTAGGR_0[1U] = {
 	{
-		.event = 5651U,
+		.event = 5659U,
 		.cleared = SFALSE,
 	},
 };

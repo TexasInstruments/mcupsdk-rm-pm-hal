@@ -3,7 +3,7 @@
  *
  * Data version: 240826_164236
  *
- * Copyright (C) 2023-2024, Texas Instruments Incorporated
+ * Copyright (C) 2023-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without

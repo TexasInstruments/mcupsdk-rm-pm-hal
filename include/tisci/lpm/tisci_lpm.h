@@ -3,7 +3,7 @@
  *
  * TISCI LPM layer for managing Low Power Mode TISCI message handlers
  *
- * Copyright (C) 2021-2024, Texas Instruments Incorporated
+ * Copyright (C) 2021-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -65,6 +65,16 @@
  * Sleep mode in which software is in low power mode but the hardware remains on.
  */
 #define TISCI_MSG_VALUE_SLEEP_MODE_STANDBY              0x4U
+
+/**
+ * Sleep mode in which the complete SOC except the DDR is turned off.
+ */
+#define TISCI_MSG_VALUE_SLEEP_MODE_SOC_OFF              0x5U
+
+/**
+ * Sleep mode in which complete SOC except the RTC and DDR is off
+ */
+#define TISCI_MSG_VALUE_SLEEP_MODE_RTC_ONLY_PLUS_DDR    0x6U
 
 /**
  * Value passed to request device manager for low power mode selection.
@@ -426,9 +436,9 @@ struct tisci_msg_set_io_isolation_resp {
  * \param ctx_lo Low 32-bits of physical pointer to address to use for context restore.
  * \param ctx_hi High 32-bits of physical pointer to address to use for context restore.
  *
- * This message is sent from R5 SPL to TIFS to indicate that DDR is active and
+ * This message is sent from bootloader to TIFS to indicate that DDR is active and
  * TIFS can restore the minimal context from the address provided in the ctx_lo and
- * ctx_hi parameters. This response assumes DDR has been fully restored by R5 SPL before
+ * ctx_hi parameters. This response assumes DDR has been fully restored by bootloader before
  * it is sent.
  *
  */
@@ -627,6 +637,30 @@ struct tisci_msg_lpm_get_next_host_state_req {
 struct tisci_msg_lpm_get_next_host_state_resp {
 	struct tisci_header	hdr;
 	u8			state;
+} __attribute__((__packed__));
+
+/**
+ * \brief Request for TISCI_MSG_LPM_ABORT.
+ *
+ * \param hdr TISCI header to provide ACK/NAK flags to the host.
+ *
+ * This message is used by linux to notify the firmware to abort the current low
+ * power mode entry by clearing the current mode selection.
+ *
+ * Note: This message should be sent after prepare sleep message in case of failure
+ * to suspend the system.
+ */
+struct tisci_msg_lpm_abort_req {
+	struct tisci_header hdr;
+} __attribute__((__packed__));
+
+/**
+ * \brief Response for TISCI_MSG_LPM_ABORT.
+ *
+ * \param hdr TISCI header to provide ACK/NAK flags to the host.
+ */
+struct tisci_msg_lpm_abort_resp {
+	struct tisci_header hdr;
 } __attribute__((__packed__));
 
 #endif

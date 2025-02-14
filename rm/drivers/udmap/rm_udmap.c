@@ -3,7 +3,7 @@
  *
  * UDMAP management infrastructure
  *
- * Copyright (C) 2018-2024, Texas Instruments Incorporated
+ * Copyright (C) 2018-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -491,65 +491,70 @@ struct udmap_valid_masks_local {
  * \brief Local list of valid param mask per channel type.
  */
 static const struct udmap_valid_masks_local local_rm_udmap_ch_valid_masks[UDMAP_NUM_CHAN_TYPES] = {
-	[UDMAP_TX_CHAN] =	       {
+	[UDMAP_TX_CHAN] =		 {
 		UDMAP_TX_CHAN_DEVMASK,
 		0U,
 		0U,
 	},
-	[UDMAP_TX_HCHAN] =	       {
+	[UDMAP_TX_HCHAN] =		 {
 		UDMAP_TX_CHAN_DEVMASK,
 		0U,
 		0U,
 	},
-	[UDMAP_TX_UHCHAN] =	       {
+	[UDMAP_TX_UHCHAN] =		 {
 		UDMAP_TX_CHAN_DEVMASK,
 		0U,
 		0U,
 	},
-	[UDMAP_TX_ECHAN] =	       {
+	[UDMAP_TX_ECHAN] =		 {
 		UDMAP_TX_CHAN_DEVMASK,
 		0U,
 		0U,
 	},
-	[UDMAP_RX_CHAN] =	       {
+	[UDMAP_RX_CHAN] =		 {
 		UDMAP_RX_CHAN_DEVMASK,
 		UDMAP_UDMA_RX_FLOW_CFG_DEVMASK,
 		UDMAP_UDMA_RX_FLOW_SIZE_DEVMASK,
 	},
-	[UDMAP_RX_HCHAN] =	       {
+	[UDMAP_RX_HCHAN] =		 {
 		UDMAP_RX_CHAN_DEVMASK,
 		UDMAP_UDMA_RX_FLOW_CFG_DEVMASK,
 		UDMAP_UDMA_RX_FLOW_SIZE_DEVMASK,
 	},
-	[UDMAP_RX_UHCHAN] =	       {
+	[UDMAP_RX_UHCHAN] =		 {
 		UDMAP_RX_CHAN_DEVMASK,
 		UDMAP_UDMA_RX_FLOW_CFG_DEVMASK,
 		UDMAP_UDMA_RX_FLOW_SIZE_DEVMASK,
 	},
-	[DMSS_BCDMA_TX_CHAN] =	       {
+	[DMSS_BCDMA_TX_CHAN] =		 {
 		UDMAP_BCDMA_TX_CHAN_DEVMASK,
 		0U,
 		0U,
 	},
-	[DMSS_BCDMA_RX_CHAN] =	       {
+	[DMSS_BCDMA_RX_CHAN] =		 {
 		UDMAP_BCDMA_RX_CHAN_DEVMASK,
 		0U,
 		0U,
 	},
-	[DMSS_BCDMA_BLOCK_COPY_CHAN] = {
+	[DMSS_BCDMA_BLOCK_COPY_CHAN] =	 {
 		UDMAP_BCDMA_CHAN_DEVMASK,
 		0U,
 		0U,
 	},
-	[DMSS_PKTDMA_TX_CHAN] =	       {
+	[DMSS_PKTDMA_TX_CHAN] =		 {
 		UDMAP_PKTDMA_TX_CHAN_DEVMASK,
 		0U,
 		0U,
 	},
-	[DMSS_PKTDMA_RX_CHAN] =	       {
+	[DMSS_PKTDMA_RX_CHAN] =		 {
 		UDMAP_PKTDMA_RX_CHAN_DEVMASK,
 		UDMAP_PKTDMA_RX_FLOW_CFG_DEVMASK,
 		UDMAP_PKTDMA_RX_FLOW_SIZE_DEVMASK,
+	},
+	[DMSS_BCDMA_BLOCK_COPY_HCCHAN] = {
+		UDMAP_BCDMA_CHAN_DEVMASK,
+		0U,
+		0U,
 	},
 };
 
@@ -639,8 +644,9 @@ static s32 udmap_check_index_range(const struct udmap_instance *inst, u8 host,
 
 	if ((inst->bc_ch_types != NULL) && (tx_ch == STRUE) &&
 	    (extended_ch_type == (u8) 1)) {
-		/* Use block copy channel types array */
+		/* Use block copy channel types array and the number of channel types*/
 		ch_types = inst->bc_ch_types;
+		n_ch_type = inst->n_bc_ch_type;
 	}
 
 	for (i = 0U; i < n_ch_type; i++) {
@@ -1785,7 +1791,8 @@ static s32 udmap_validate_burst_size(u8 chan_type, u8 burst_size,
 		    (chan_type == UDMAP_TX_UHCHAN) ||
 		    (chan_type == UDMAP_TX_ECHAN) ||
 		    (chan_type == UDMAP_RX_HCHAN) ||
-		    (chan_type == UDMAP_RX_UHCHAN)) {
+		    (chan_type == UDMAP_RX_UHCHAN) ||
+		    (chan_type == DMSS_BCDMA_BLOCK_COPY_HCCHAN)) {
 			/*
 			 * Only high capacity channels can support burst size
 			 * above 128 bytes
@@ -4982,10 +4989,10 @@ s32 rm_udmap_init(void)
 	return r;
 }
 
-s32 rm_udmap_deinit(devgrp_t devgrp)
+s32 rm_udmap_deinit(devgrp_t devgrp, sbool rom_deinit)
 {
 	s32 r = -EFAIL;
-	u8 i;
+	u8 i, j;
 
 	for (i = 0U; i < udmap_inst_count; i++) {
 		if ((rm_core_validate_devgrp(udmap_inst[i].id, udmap_inst[i].devgrp) ==
@@ -4993,6 +5000,16 @@ s32 rm_udmap_deinit(devgrp_t devgrp)
 		    (udmap_inst[i].initialized == STRUE) &&
 		    (udmap_inst[i].devgrp == devgrp)) {
 			udmap_inst[i].initialized = SFALSE;
+
+			if (rom_deinit == STRUE) {
+				/* Since ROM will be using these resources again, reset the ROM usage flags,
+				 * so that way these resources are able to be cleared again during RM init.
+				 */
+				for (j = 0U; j < (udmap_inst[i].n_rom_usage); j++) {
+					udmap_inst[i].rom_usage[j].cleared = SFALSE;
+				}
+			}
+
 			r = SUCCESS;
 		}
 	}

@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2014-2024, Texas Instruments Incorporated
+ * Copyright (C) 2014-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -737,7 +737,7 @@ u32 lpsc_module_get_state(struct device		*dev,
 	u8 state;
 	u32 ret;
 
-	state = (u8) (psc_read(dev, PSC_MDCTL(idx)) & MDSTAT_STATE_MASK);
+	state = (u8) (psc_read(dev, PSC_MDSTAT(idx)) & MDSTAT_STATE_MASK);
 
 	if (state == MDSTAT_STATE_SWRSTDISABLE) {
 		ret = 0U; /* Disabled */

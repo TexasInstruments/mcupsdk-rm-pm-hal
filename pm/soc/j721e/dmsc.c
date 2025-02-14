@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2019-2024, Texas Instruments Incorporated
+ * Copyright (C) 2019-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -124,7 +124,7 @@ static s32 j721e_sys_reset_handler(domgrp_t domain)
 
 		/* resource management de-initialization */
 		if (ret == SUCCESS) {
-			ret = rm_deinit(SOC_DEVGRP_J721E_MAIN);
+			ret = rm_deinit(SOC_DEVGRP_J721E_MAIN, SFALSE);
 		}
 
 		if (ret != SUCCESS) {

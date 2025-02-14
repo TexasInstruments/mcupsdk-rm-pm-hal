@@ -3,7 +3,7 @@
  *
  * Handlers for Low Power Mode implementation
  *
- * Copyright (C) 2021-2024, Texas Instruments Incorporated
+ * Copyright (C) 2021-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,6 +57,7 @@
 #include <soc/host_idx_mapping.h>
 #include <lib/trace.h>
 #include "wkup_periph.h"
+#include "rm.h"
 
 /* Count of 1us delay for 10ms */
 #define TIMEOUT_10MS                    10000U
@@ -74,6 +75,7 @@
 #define LPM_SAVE_MMR_LOCK                       BIT(7)
 #define LPM_SAVE_MCU_PADCONFIG                  BIT(8)
 #define LPM_SAVE_WKUP_PERIPH_CFG                BIT(9)
+#define LPM_RM_DEINIT                           BIT(10)
 
 #define LPM_RESUME_LATENCY_VALID_FLAG           BIT(16)
 
@@ -198,7 +200,22 @@ static s32 lpm_resume_restore_RM_context(void)
 	/* Restore IR configurations */
 	s32 ret = -EFAIL;
 
-	ret = lpm_resume_restore_ir_config();
+	ret = rm_init();
+
+	if (ret == SUCCESS) {
+		ret = lpm_resume_restore_ir_config();
+	}
+
+	return ret;
+}
+
+static s32 lpm_suspend_RM_context(void)
+{
+	/* Clear all initialized as well as ROM usage clear flags so that ROM resources can be freed during resume */
+	s32 ret = -EFAIL;
+
+	/* Deinit all RM resources */
+	ret = rm_deinit(RM_RSRC_DEVGRP, STRUE);
 
 	return ret;
 }
@@ -662,6 +679,11 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 	}
 
 	if ((mode == TISCI_MSG_VALUE_SLEEP_MODE_IO_ONLY_PLUS_DDR) && (ret == SUCCESS)) {
+		ret = lpm_suspend_RM_context();
+		enter_sleep_status |= LPM_RM_DEINIT;
+	}
+
+	if ((mode == TISCI_MSG_VALUE_SLEEP_MODE_IO_ONLY_PLUS_DDR) && (ret == SUCCESS)) {
 		ret = lpm_sleep_save_wkup_periph_config();
 		enter_sleep_status |= LPM_SAVE_WKUP_PERIPH_CFG;
 	}
@@ -732,7 +754,7 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 		}
 	}
 
-	if (ret == SUCCESS) {
+	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_RM_DEINIT) == LPM_RM_DEINIT)) {
 		if (lpm_resume_restore_RM_context() != SUCCESS) {
 			lpm_hang_abort();
 		}
@@ -1075,6 +1097,23 @@ s32 dm_lpm_get_next_host_state(u32 *msg_recv)
 	}
 
 	resp->state = state;
+
+	return ret;
+}
+
+s32 dm_lpm_abort(u32 *msg_recv)
+{
+	s32 ret = SUCCESS;
+	struct tisci_msg_lpm_abort_resp *resp =
+		(struct tisci_msg_lpm_abort_resp *) msg_recv;
+
+	pm_trace(TRACE_PM_ACTION_MSG_RECEIVED, TISCI_MSG_LPM_ABORT);
+
+	resp->hdr.flags = 0U;
+
+	if (lpm_locked == STRUE) {
+		lpm_clear_sleep_data();
+	}
 
 	return ret;
 }

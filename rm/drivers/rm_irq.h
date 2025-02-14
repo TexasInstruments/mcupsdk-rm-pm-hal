@@ -3,7 +3,7 @@
  *
  * Resource Manager IRQ infrastructure APIs
  *
- * Copyright (C) 2017-2020, Texas Instruments Incorporated
+ * Copyright (C) 2017-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -112,11 +112,15 @@ s32 rm_irq_init(void);
  *
  * Deinitializes IA and IR drivers in a device group
  *
+ * \param devgrp Device Group that has to be uninitialized
+ * \param rom_deinit Boolean value to indicate whether to reset
+ *                          ROM usage flags or not
+ *
  * \return
  * Status of initialization
  *      SUCCESS - Deinitialization completed successfully
  *      -E... - Deinitialization completed unsuccessfully.
  */
-s32 rm_irq_deinit(devgrp_t devgrp);
+s32 rm_irq_deinit(devgrp_t devgrp, sbool rom_deinit);
 
 #endif /* RM_IRQ_H */

@@ -1,7 +1,7 @@
 /*
- * Data version: 241113_102144
+ * Data version: 241217_073541
  *
- * Copyright (C) 2017-2024 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2017-2025 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
  */
 #ifndef SOC_AM275X_DEVICES_H

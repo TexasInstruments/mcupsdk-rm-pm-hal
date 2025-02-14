@@ -3,7 +3,7 @@
  *
  * IRQ management interrupt aggregator infrastructure
  *
- * Copyright (C) 2018-2024, Texas Instruments Incorporated
+ * Copyright (C) 2018-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -996,10 +996,10 @@ s32 rm_ia_init(void)
 	return r;
 }
 
-s32 rm_ia_deinit(devgrp_t devgrp)
+s32 rm_ia_deinit(devgrp_t devgrp, sbool rom_deinit)
 {
 	s32 r = -EFAIL;
-	u8 i;
+	u8 i, j;
 
 	for (i = 0U; i < IA_INST_COUNT; i++) {
 		if ((rm_core_validate_devgrp(ia_inst[i].id, ia_inst[i].devgrp) ==
@@ -1007,6 +1007,19 @@ s32 rm_ia_deinit(devgrp_t devgrp)
 		    (ia_inst[i].initialized == STRUE) &&
 		    (ia_inst[i].devgrp == devgrp)) {
 			ia_inst[i].initialized = SFALSE;
+
+			if (rom_deinit == STRUE) {
+				/* Since ROM will be using these resources again, reset the ROM usage flags,
+				 * so that way these resources are able to be cleared again during RM init.
+				 */
+				for (j = 0U; j < (ia_inst[i].n_rom_usage); j++) {
+					ia_inst[i].rom_usage[j].cleared = SFALSE;
+				}
+
+				for (j = 0U; j < (ia_inst[i].n_rom_usage_unmapped_events); j++) {
+					ia_inst[i].rom_usage_unmapped_events[j].cleared = SFALSE;
+				}
+			}
 			r = SUCCESS;
 		}
 	}

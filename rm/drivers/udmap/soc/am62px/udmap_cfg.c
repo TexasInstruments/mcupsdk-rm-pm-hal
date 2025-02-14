@@ -5,7 +5,7 @@
  *
  * Data version: 240826_164236
  *
- * Copyright (C) 2023-2024, Texas Instruments Incorporated
+ * Copyright (C) 2023-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -96,9 +96,20 @@ static const struct rm_mmr mmr_DMASS0_BCDMA_0_BCDMA_BCHANRT = {
 	.base		= 0x4c000000U,
 };
 
-static const struct udmap_ch_type bc_ch_types_DMASS0_BCDMA_0[1] = {
+static const struct udmap_ch_type bc_ch_types_DMASS0_BCDMA_0[2] = {
 	{
 		.start = 0U,
+		.end = 3U,
+		.flow_start = 0U,
+		.flow_end = 0U,
+		.flow_utype = 0U,
+		.oes_offset = 0U,
+		.err_oes_offset = 0U,
+		.type = DMSS_BCDMA_BLOCK_COPY_HCCHAN,
+		.utype = RESASG_UTYPE(AM62PX_DEV_DMASS0_BCDMA_0, RESASG_SUBTYPE_BCDMA_BLOCK_COPY_HCCHAN),
+	},
+	{
+		.start = 4U,
 		.end = 31U,
 		.flow_start = 0U,
 		.flow_end = 0U,

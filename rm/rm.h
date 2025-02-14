@@ -3,7 +3,7 @@
  *
  * Resource Manager APIs
  *
- * Copyright (C) 2017-2022, Texas Instruments Incorporated
+ * Copyright (C) 2017-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,11 +62,14 @@ s32 rm_init(void);
  *
  * De-initializes RM data structures in a device group
  *
+ * \param devgrp Device group for which deinit has to be done
+ * \param rom_deinit Boolean value to decide whether to reset clearing of
+ *						ROM usage flags or not
  * \return
  * Status of de-initialization
  *      SUCCESS - De-initialization completed successfully
  */
-s32 rm_deinit(devgrp_t devgrp);
+s32 rm_deinit(devgrp_t devgrp, sbool rom_deinit);
 
 /**
  * \brief Resource range retrieval
@@ -84,7 +87,7 @@ static inline s32 rm_init(void)
 	return SUCCESS;
 }
 
-static inline s32 rm_deinit(devgrp_t devgrp __attribute__((unused)))
+static inline s32 rm_deinit(devgrp_t devgrp __attribute__((unused)), sbool rom_deinit __attribute__((unused)))
 {
 	return SUCCESS;
 }

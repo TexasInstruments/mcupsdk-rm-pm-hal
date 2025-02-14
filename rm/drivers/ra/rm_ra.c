@@ -3,7 +3,7 @@
  *
  * Ring Accelerator management infrastructure
  *
- * Copyright (C) 2018-2024, Texas Instruments Incorporated
+ * Copyright (C) 2018-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -1478,6 +1478,7 @@ s32 rm_ra_validate_ring_index(u16 nav_id, u8 udma_chan_type, u8 host, u16 index)
 		break;
 	case DMSS_BCDMA_TX_CHAN:
 	case DMSS_BCDMA_RX_CHAN:
+	case DMSS_BCDMA_BLOCK_COPY_HCCHAN:
 	case DMSS_BCDMA_BLOCK_COPY_CHAN:
 	case DMSS_PKTDMA_TX_CHAN:
 	case DMSS_PKTDMA_RX_CHAN:
@@ -1569,10 +1570,10 @@ s32 rm_ra_init(void)
 	return r;
 }
 
-s32 rm_ra_deinit(devgrp_t devgrp)
+s32 rm_ra_deinit(devgrp_t devgrp, sbool rom_deinit)
 {
 	s32 r = -EFAIL;
-	u8 i;
+	u8 i, j;
 
 	for (i = 0U; i < ra_inst_count; i++) {
 		if ((rm_core_validate_devgrp(ra_inst[i].id, ra_inst[i].devgrp) ==
@@ -1580,6 +1581,16 @@ s32 rm_ra_deinit(devgrp_t devgrp)
 		    (ra_inst[i].initialized == STRUE) &&
 		    (ra_inst[i].devgrp == devgrp)) {
 			ra_inst[i].initialized = SFALSE;
+
+			if (rom_deinit == STRUE) {
+				/* Since ROM will be using these resources again, reset the ROM usage flags,
+				 * so that way these resources are able to be cleared again during RM init.
+				 */
+				for (j = 0U; j < (ra_inst[i].n_rom_usage); j++) {
+					ra_inst[i].rom_usage[j].cleared = SFALSE;
+				}
+			}
+
 			r = SUCCESS;
 		}
 	}

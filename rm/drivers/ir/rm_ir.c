@@ -3,7 +3,7 @@
  *
  * IRQ management interrupt router infrastructure
  *
- * Copyright (C) 2017-2024, Texas Instruments Incorporated
+ * Copyright (C) 2017-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -631,10 +631,10 @@ s32 rm_ir_init(void)
 	return r;
 }
 
-s32 rm_ir_deinit(devgrp_t devgrp)
+s32 rm_ir_deinit(devgrp_t devgrp, sbool rom_deinit)
 {
 	s32 r = -EFAIL;
-	u8 i;
+	u8 i, j;
 
 	for (i = 0U; i < IR_INST_COUNT; i++) {
 		if ((rm_core_validate_devgrp(ir_inst[i].id, ir_inst[i].devgrp) ==
@@ -642,6 +642,16 @@ s32 rm_ir_deinit(devgrp_t devgrp)
 		    (ir_inst[i].initialized == STRUE) &&
 		    (ir_inst[i].devgrp == devgrp)) {
 			ir_inst[i].initialized = SFALSE;
+
+			if (rom_deinit == STRUE) {
+				/* Since ROM will be using these resources again, reset the ROM usage flags,
+				 * so that way these resources are able to be cleared again during RM init.
+				 */
+				for (j = 0U; j < (ir_inst[i].n_rom_usage); j++) {
+					ir_inst[i].rom_usage[j].cleared = SFALSE;
+				}
+			}
+
 			r = SUCCESS;
 		}
 	}

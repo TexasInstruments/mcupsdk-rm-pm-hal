@@ -3,7 +3,7 @@
  *
  * UDMAP driver instance definition
  *
- * Copyright (C) 2018-2023, Texas Instruments Incorporated
+ * Copyright (C) 2018-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -109,9 +109,13 @@
  */
 #define DMSS_PKTDMA_RX_CHAN        (11U)
 /**
+ * DMSS BCDMA block copy high capacity channel
+ */
+#define DMSS_BCDMA_BLOCK_COPY_HCCHAN (12U)
+/**
  * Total number of ring types
  */
-#define UDMAP_NUM_CHAN_TYPES       (12U)
+#define UDMAP_NUM_CHAN_TYPES       (13U)
 
 /**
  * \brief

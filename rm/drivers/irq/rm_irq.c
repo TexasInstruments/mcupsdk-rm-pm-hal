@@ -3,7 +3,7 @@
  *
  * Resource Manager IRQ infrastructure
  *
- * Copyright (C) 2017-2023, Texas Instruments Incorporated
+ * Copyright (C) 2017-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -853,14 +853,14 @@ s32 rm_irq_init(void)
 	return r;
 }
 
-s32 rm_irq_deinit(devgrp_t devgrp)
+s32 rm_irq_deinit(devgrp_t devgrp, sbool rom_deinit)
 {
 	s32 r = SUCCESS;
 
-	r = rm_ir_deinit(devgrp);
+	r = rm_ir_deinit(devgrp, rom_deinit);
 
 	if (r == SUCCESS) {
-		r = rm_ia_deinit(devgrp);
+		r = rm_ia_deinit(devgrp, rom_deinit);
 	}
 
 	return r;
