@@ -3,7 +3,7 @@
  *
  * TISCI Data structures for core messages
  *
- * Copyright (C) 2017-2024, Texas Instruments Incorporated
+ * Copyright (C) 2017-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,6 +50,7 @@
 #define TISCI_MSG_FLAG_FW_CAP_LPM_DM_MANAGED            BIT(5)
 #define TISCI_MSG_FLAG_FW_CAP_LPM_IO_ONLY_PLUS_DDR      BIT(6)
 #define TISCI_MSG_FLAG_FW_CAP_IO_ISOLATION              BIT(7)
+#define TISCI_MSG_FLAG_FW_CAP_DM                        BIT(8)
 
 /**
  * \brief Notification message to indicate the DMSC is available.
@@ -82,6 +83,41 @@ struct tisci_msg_version_resp {
 	u8			abi_minor;
 	u8			sub_version;
 	u8			patch_version;
+} __attribute__((__packed__));
+
+/**
+ * \brief Notification message to get DM version.
+ *
+ * Although this message is essentially empty and contains only a header
+ * a full data structure is created for consistency in implementation.
+ *
+ * \param hdr TISCI header
+ */
+struct tisci_msg_dm_version_req {
+	struct tisci_header hdr;
+} __attribute__((__packed__));
+
+/**
+ * \brief TISCI_MSG_DM_VERSION response struct to provide version
+ *      info about currently running DM firmware.
+ * \param hdr TISCI header.
+ * \param version Version number of the firmware.
+ * \param sub_version Sub-version number of the firmware.
+ * \param patch_version Patch-version number of the firmware.
+ * \param abi_major Major version number of ABI in use by firmware.
+ * \param abi_minor Minor version number of ABI in use by firmware.
+ * \param rm_pm_hal_version Human readable rm_pm_hal version string.
+ * \param sciserver_version Human readable Sciserver version string.
+ */
+struct tisci_msg_dm_version_resp {
+	struct tisci_header	hdr;
+	u16			version;
+	u8			sub_version;
+	u8			patch_version;
+	u8			abi_major;
+	u8			abi_minor;
+	char			rm_pm_hal_version[12];
+	char			sciserver_version[26];
 } __attribute__((__packed__));
 
 /**

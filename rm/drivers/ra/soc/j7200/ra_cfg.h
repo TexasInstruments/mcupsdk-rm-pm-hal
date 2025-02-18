@@ -5,7 +5,7 @@
  *
  * Data version: 220622_142531
  *
- * Copyright (C) 2019-2024 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2019-2025 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
  */
 #ifndef RA_CFG_H

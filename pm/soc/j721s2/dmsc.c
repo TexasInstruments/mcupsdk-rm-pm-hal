@@ -57,7 +57,7 @@
 #define WARM_RST_CTRL_VAL                               0x60000
 #define MCU_RST_DONE_MASK                               ((u32) 0x1U << 16)
 #define MAIN_RST_DONE_MASK                              (0x1U << 0U)
-#define RESET_WAIT_TIMEOUT                              100
+#define RESET_WAIT_TIMEOUT                              10000
 #define RESET_DELAY_PER_ITERATION_US                    1U
 
 static const struct sleep_mode j721s2_sleep_modes[] = {
@@ -70,7 +70,7 @@ static u8 j721s2_sleep_block[1];
 
 static s32 wait_reset_done_with_timeout(domgrp_t domain)
 {
-	u8 timeout = RESET_WAIT_TIMEOUT;
+	u16 timeout = RESET_WAIT_TIMEOUT;
 	s32 ret = SUCCESS;
 	u32 reg = 0U;
 	u32 mask;

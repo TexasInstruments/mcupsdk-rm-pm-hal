@@ -1,7 +1,7 @@
 /*
  * Data version: 240122_143513
  *
- * Copyright (C) 2017-2024, Texas Instruments Incorporated
+ * Copyright (C) 2017-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -6101,7 +6101,7 @@ const struct clk_data soc_clock_data[374] = {
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
+		.flags	= CLK_DATA_FLAG_ALLOW_FREQ_CHANGE,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_hsdiv1_16fft_main_7_hsdiv0.data_div.data,
 	},
@@ -6111,7 +6111,7 @@ const struct clk_data soc_clock_data[374] = {
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
+		.flags	= CLK_DATA_FLAG_ALLOW_FREQ_CHANGE,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_hsdiv1_16fft_main_7_hsdiv1.data_div.data,
 	},
