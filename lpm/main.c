@@ -3,7 +3,7 @@
  *
  * DM Stub main low power functionality
  *
- * Copyright (C) 2021-2024, Texas Instruments Incorporated
+ * Copyright (C) 2021-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -862,10 +862,10 @@ s32 dm_stub_entry(void)
 	}
 
 	if (enter_ddr_low_power_mode() != 0) {
-		lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DDR_RST_ISO);
+		lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DDR_SR_ENTER);
 		lpm_abort();
 	} else {
-		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DDR_RST_ISO);
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DDR_SR_ENTER);
 	}
 
 	lpm_seq_trace(0x77);
@@ -882,9 +882,9 @@ s32 dm_stub_entry(void)
 		if (disable_main_lpsc(main_lpscs_phase1, num_main_lpscs_phase1) != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC);
 			lpm_abort();
+		} else {
+			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC);
 		}
-
-		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC);
 
 		/* Bypass and disable all PLL in MAIN_PLLCTRL except clock for Debug, PLL0, PLL15 */
 		bypass_main_pll();
@@ -900,9 +900,9 @@ s32 dm_stub_entry(void)
 	if (enable_main_io_isolation() != 0) {
 		lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_MAIN_IO_ISO);
 		lpm_abort();
+	} else {
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_MAIN_IO_ISO);
 	}
-
-	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_MAIN_IO_ISO);
 
 	if (g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_IO_ONLY_PLUS_DDR) {
 		/* Enter IO Only plus DDR low power mode */
@@ -914,9 +914,9 @@ s32 dm_stub_entry(void)
 		if (disable_main_lpsc(main_lpscs_phase2, num_main_lpscs_phase2) != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC2);
 			lpm_abort();
+		} else {
+			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC2);
 		}
-
-		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC2);
 
 		/* Modify WKUP_CLKSEL in WKUP_CTRL to use MCU_PLL instead of MAIN PLL */
 		writel(WKUP_CLKSEL_MCU, WKUP_CTRL_MMR_BASE + WKUP_CLKSEL);
@@ -951,8 +951,9 @@ s32 dm_stub_entry(void)
 		if (wait_for_reset_statz(0) != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DS_MAIN_OFF);
 			lpm_abort();
+		} else {
+			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DS_MAIN_OFF);
 		}
-		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DS_MAIN_OFF);
 	}
 
 	if (g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) {

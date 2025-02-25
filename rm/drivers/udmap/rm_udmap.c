@@ -1778,7 +1778,8 @@ static s32 udmap_validate_burst_size(u8 chan_type, u8 burst_size,
 		    (chan_type == UDMAP_TX_ECHAN) ||
 		    (chan_type == UDMAP_RX_HCHAN) ||
 		    (chan_type == UDMAP_RX_UHCHAN) ||
-		    (chan_type == DMSS_BCDMA_BLOCK_COPY_CHAN)) {
+		    (chan_type == DMSS_BCDMA_BLOCK_COPY_CHAN) ||
+		    (chan_type == DMSS_BCDMA_BLOCK_COPY_HCCHAN)) {
 			/*
 			 * Only high capacity and BCDMA block copy channels can
 			 * support burst size above 64 bytes

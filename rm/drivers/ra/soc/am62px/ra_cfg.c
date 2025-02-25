@@ -68,9 +68,15 @@ static const struct rm_mmr mmr_DMASS0_BCDMA_0_BCDMA_RINGRT = {
 	.base		= 0x4bc00000U,
 };
 
-static const struct ra_ring_type ring_types_DMASS0_BCDMA_0[3] = {
+static const struct ra_ring_type ring_types_DMASS0_BCDMA_0[4] = {
 	{
 		.start = 0U,
+		.end = 3U,
+		.type = RA_DMSS_RING,
+		.utype = RESASG_UTYPE(AM62PX_DEV_DMASS0_BCDMA_0, RESASG_SUBTYPE_BCDMA_RING_BLOCK_COPY_HCCHAN),
+	},
+	{
+		.start = 4U,
 		.end = 31U,
 		.type = RA_DMSS_RING,
 		.utype = RESASG_UTYPE(AM62PX_DEV_DMASS0_BCDMA_0, RESASG_SUBTYPE_BCDMA_RING_BLOCK_COPY_CHAN),
