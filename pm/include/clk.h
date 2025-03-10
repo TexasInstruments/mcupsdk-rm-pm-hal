@@ -261,7 +261,7 @@ static inline sbool clk_id_valid(clk_idx_t id)
  */
 static inline struct clk *clk_lookup(clk_idx_t id)
 {
-	return clk_id_valid(id) ? (soc_clocks + id) : NULL;
+	return clk_id_valid(id) ? (soc_clocks + id) : (struct clk *) NULL;
 }
 
 /**

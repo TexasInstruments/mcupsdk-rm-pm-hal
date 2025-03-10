@@ -260,7 +260,7 @@ static inline sbool device_id_valid(u32 id)
  */
 static inline struct device *device_lookup(dev_idx_t id)
 {
-	return device_id_valid(id) ? (soc_devices + id) : NULL;
+	return device_id_valid(id) ? (soc_devices + id) : (struct device *) NULL;
 }
 
 /**
@@ -279,7 +279,7 @@ static inline struct device *device_api_lookup(u32 id)
 {
 	return (!device_id_valid(id) ||
 		((soc_device_data_arr[id]->flags & DEVD_FLAG_INTERNAL) != 0U)) ?
-	       NULL : (soc_devices + id);
+	       (struct device *) NULL : (soc_devices + id);
 }
 
 /**
@@ -349,7 +349,7 @@ static inline const struct drv_data *get_drv_data(struct device *dev)
 {
 	const struct dev_data *dev_datap = get_dev_data(dev);
 
-	return dev_datap ? to_drv_data(dev_datap) : NULL;
+	return dev_datap ? to_drv_data(dev_datap) : (struct drv_data *) NULL;
 }
 
 /**
@@ -367,7 +367,7 @@ static inline const struct drv *get_dev_drv(struct device *dev)
 {
 	const struct dev_data *dev_datap = get_dev_data(dev);
 
-	return dev_datap ? to_drv_data(dev_datap)->drv : NULL;
+	return dev_datap ? to_drv_data(dev_datap)->drv : (struct drv *) NULL;
 }
 
 /**

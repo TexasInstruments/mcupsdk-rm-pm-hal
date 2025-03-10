@@ -1,5 +1,5 @@
 /*
- * Data version: 240306_111346
+ * Data version: 250223_004013
  *
  * Copyright (C) 2017-2025, Texas Instruments Incorporated
  * All rights reserved.
@@ -41,11 +41,11 @@
 
 #define SOC_CLOCK_FREQ_DEFAULTS_RANGE_ID_MAX 12
 
-#define SOC_CLOCK_DATA_RANGE_ID_MAX 844
+#define SOC_CLOCK_DATA_RANGE_ID_MAX 843
 
 #define SOC_CLOCK_RANGES_ID_MAX 6
 
-#define SOC_CLOCKS_RANGE_ID_MAX 844
+#define SOC_CLOCKS_RANGE_ID_MAX 843
 
 #define HOST_RANGE_ID_MAX 254
 

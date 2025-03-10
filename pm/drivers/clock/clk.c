@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2024, Texas Instruments Incorporated
+ * Copyright (C) 2015-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -624,16 +624,20 @@ static s32 clk_suspend_save(struct clk *clkp)
 	const struct clk_data *clk_data_p = clk_get_data(clkp);
 	s32 ret = SUCCESS;
 
-	if ((clkp->flags & CLK_FLAG_SUSPENDED) == 0U) {
-		if (clk_data_p->drv->suspend_save != NULL) {
-			ret = clk_data_p->drv->suspend_save(clkp);
-			/* Mark clock as suspended to avoid duplicate operations */
-			clkp->flags |= CLK_FLAG_SUSPENDED;
-		} else {
-			/* Mark clock as resumed if no handler is provided */
-			clkp->flags |= CLK_FLAG_SUSPENDED;
-			ret = SUCCESS;
+	if (clk_data_p != NULL) {
+		if ((clkp->flags & CLK_FLAG_SUSPENDED) == 0U) {
+			if (clk_data_p->drv->suspend_save != NULL) {
+				ret = clk_data_p->drv->suspend_save(clkp);
+				/* Mark clock as suspended to avoid duplicate operations */
+				clkp->flags |= CLK_FLAG_SUSPENDED;
+			} else {
+				/* Mark clock as resumed if no handler is provided */
+				clkp->flags |= CLK_FLAG_SUSPENDED;
+				ret = SUCCESS;
+			}
 		}
+	} else {
+		ret = SUCCESS;
 	}
 
 	return ret;

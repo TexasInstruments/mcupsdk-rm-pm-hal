@@ -1,5 +1,5 @@
 /*
- * Data version: 240306_111346
+ * Data version: 250223_004013
  *
  * Copyright (C) 2017-2025, Texas Instruments Incorporated
  * All rights reserved.
@@ -6872,7 +6872,7 @@ static const struct clk_data_div_reg clk_data_k3_pll_ctrl_wrap_main_0_chip_div24
 };
 static const struct clk_parent clk_k3_pll_ctrl_wrap_wkup_0_parents[2] = {
 	{
-		CLK_J784S4_WKUP_FREF_CLKSEL_OUT0,
+		CLK_J784S4_GLUELOGIC_HFOSC0_CLKOUT,
 		1,
 	},
 	{
@@ -8882,24 +8882,6 @@ static const struct clk_data_from_dev clk_data_wiz16b8m4ct3_main_4_ip4_ln3_txmcl
 	.dev		= J784S4_DEV_SERDES_10G4,
 	.clk_idx	= J784S4_DEV_SERDES_10G4_IP4_LN3_TXMCLK,
 };
-static const struct clk_parent clk_wkup_FREF_clksel_parents[2] = {
-	{
-		CLK_J784S4_GLUELOGIC_HFOSC0_CLKOUT,
-		1,
-	},
-	{
-		CLK_J784S4_J7AM_WAKEUP_16FF_WKUP_0_WKUP_RCOSC_12P5M_CLK,
-		1,
-	},
-};
-static const struct clk_data_mux_reg clk_data_wkup_FREF_clksel_out0 = {
-	.data_mux		= {
-		.parents	= clk_wkup_FREF_clksel_parents,
-		.n		= ARRAY_SIZE(clk_wkup_FREF_clksel_parents),
-	},
-	.reg			= 0x43000000 + 32848,
-	.bit			= 8,
-};
 static const struct clk_parent clk_wkup_gpio0_clksel_parents[4] = {
 	{
 		CLK_J784S4_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
@@ -8927,25 +8909,14 @@ static const struct clk_data_mux_reg clk_data_wkup_gpio0_clksel_out0 = {
 	.bit			= 0,
 };
 
-const struct clk_data soc_clock_data[844] = {
+const struct clk_data soc_clock_data[843] = {
 	[CLK_J784S4_GLUELOGIC_HFOSC0_CLKOUT] =						 {
 		.drv	= &clk_drv_soc_hfosc0,
 		.flags	= 0,
 	},
-	[CLK_J784S4_J7AM_WAKEUP_16FF_WKUP_0_WKUP_RCOSC_12P5M_CLK] =			 {
-		.drv		= &clk_drv_fixed,
-		.flags		= 0,
-		.range_idx	= J784S4_FREQ_RANGE_J7AM_WAKEUP_16FF_WKUP_0_WKUP_RCOSC_12P5M_CLK,
-	},
-	[CLK_J784S4_WKUP_FREF_CLKSEL_OUT0] =						 {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_wkup_FREF_clksel_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
 	[CLK_J784S4_PLLFRACF2_SSMOD_16FFT_MCU_0_FOUTVCOP_CLK] =				 {
 		.parent		=							 {
-			CLK_J784S4_WKUP_FREF_CLKSEL_OUT0,
+			CLK_J784S4_GLUELOGIC_HFOSC0_CLKOUT,
 			1,
 		},
 		.drv		= &clk_drv_pll_16fft,
@@ -9215,6 +9186,11 @@ const struct clk_data soc_clock_data[844] = {
 		.data		= &clk_data_i3c_mcu_0_i3c_scl_do.data,
 		.freq_idx	= J784S4_FREQ_VALUE_I3C_MCU_0_I3C_SCL_DO,
 	},
+	[CLK_J784S4_J7AM_WAKEUP_16FF_WKUP_0_WKUP_RCOSC_12P5M_CLK] =			 {
+		.drv		= &clk_drv_fixed,
+		.flags		= 0,
+		.range_idx	= J784S4_FREQ_RANGE_J7AM_WAKEUP_16FF_WKUP_0_WKUP_RCOSC_12P5M_CLK,
+	},
 	[CLK_J784S4_J7AM_WAKEUP_16FF_WKUP_0_WKUP_RCOSC_32K_CLK] =			 {
 		.drv		= &clk_drv_fixed,
 		.flags		= 0,
@@ -9261,7 +9237,7 @@ const struct clk_data soc_clock_data[844] = {
 	},
 	[CLK_J784S4_PLLFRACF2_SSMOD_16FFT_MCU_1_FOUTVCOP_CLK] =				 {
 		.parent		=							 {
-			CLK_J784S4_WKUP_FREF_CLKSEL_OUT0,
+			CLK_J784S4_GLUELOGIC_HFOSC0_CLKOUT,
 			1,
 		},
 		.drv		= &clk_drv_pll_16fft,
@@ -9271,7 +9247,7 @@ const struct clk_data soc_clock_data[844] = {
 	},
 	[CLK_J784S4_PLLFRACF2_SSMOD_16FFT_MCU_2_FOUTVCOP_CLK] =				 {
 		.parent		=							 {
-			CLK_J784S4_WKUP_FREF_CLKSEL_OUT0,
+			CLK_J784S4_GLUELOGIC_HFOSC0_CLKOUT,
 			1,
 		},
 		.drv		= &clk_drv_pll_16fft,
@@ -14395,5 +14371,5 @@ const struct clk_data soc_clock_data[844] = {
 	},
 };
 
-struct clk soc_clocks[844];
+struct clk soc_clocks[843];
 const size_t soc_clock_count = ARRAY_SIZE(soc_clock_data);
