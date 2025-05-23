@@ -3,7 +3,7 @@
  *
  * Debug Trace layer Protocol Definition
  *
- * Copyright (C) 2018-2024, Texas Instruments Incorporated
+ * Copyright (C) 2018-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -384,11 +384,9 @@
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC                   0x0006U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_BYPASS_MAIN_PLL                 0x0007U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_CONFIG_WAKE_SRC                 0x0008U
-#define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_MAIN_IO_ISO                  0x0009U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC2                  0x000AU
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WKUP_CLKSEL_MCU                 0x000BU
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_CONF_CLK_MUXES                  0x000CU
-#define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_PLLS                   0x000DU
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_DS_RST_MASK                  0x000EU
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DS_MAIN_OFF                     0x000FU
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MCU_DOM                     0x0010U
@@ -406,7 +404,7 @@
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_SET_CLKLOSS_EN                  0x001CU
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_RESTORE_MCU_PLL                 0x001DU
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_UNMSK_WWD0_CTRL                 0x001EU
-#define TRACE_PM_ACTION_LPM_SEQ_DIS_MCU_IO_ISO                          0x001FU
+#define TRACE_PM_ACTION_LPM_SEQ_EN_MCU_LPSC                             0x001FU
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_SET_MGC_WRD                     0x0020U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DS_MAIN_ON                      0x0021U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_MAIN_RST                   0x0022U
@@ -415,7 +413,6 @@
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_TIFS                       0x0025U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_FS_STUB_LD                      0x0026U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_TISCI_CONT_RES                  0x0027U
-#define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_IO_ISO                 0x0028U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_MAIN_PLLS                    0x0029U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_DDR_RST_ISO                 0x002AU
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DDR_SR_EXIT                     0x002BU
