@@ -1,7 +1,7 @@
 /*
  * Data version: 240823_113849
  *
- * Copyright (C) 2017-2024 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2017-2025 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
  */
 #include <types/array_size.h>
