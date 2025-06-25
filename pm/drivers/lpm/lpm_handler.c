@@ -512,12 +512,15 @@ s32 dm_prepare_sleep_handler(u32 *msg_recv)
 
 	switch (mode) {
 	case TISCI_MSG_VALUE_SLEEP_MODE_IO_ONLY_PLUS_DDR:
-		/* Return failure if the device does not support IO only plus DDR mode */
-		if ((ret == SUCCESS) && (mode != DEEPEST_LOW_POWER_MODE)) {
-			ret = -EFAIL;
-		}
 	case TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP:
 	case TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY:
+		if (mode == TISCI_MSG_VALUE_SLEEP_MODE_IO_ONLY_PLUS_DDR) {
+			/* Return failure if the device does not support IO only plus DDR mode */
+			if ((ret == SUCCESS) && (mode != DEEPEST_LOW_POWER_MODE)) {
+				ret = -EFAIL;
+			}
+		}
+
 		if (ret == SUCCESS) {
 			/* Parse and store the mode info and ctx address in the prepare sleep message */
 			lpm_populate_prepare_sleep_data(req);
@@ -929,7 +932,7 @@ s32 dm_lpm_get_device_constraint(u32 *msg_recv)
 	ret = device_prepare_nonexclusive(host_id, id, &host_idx, &dev);
 	if (ret == SUCCESS) {
 		/* Get constraint value on this device put by requesting host */
-		resp->state = dev_cons[id] & (1U << host_idx);
+		resp->state = (dev_cons[id] & (1U << host_idx)) >> host_idx;
 	}
 
 	return ret;

@@ -66,6 +66,7 @@ extern void lpm_clear_all_wakeup_interrupt(void);
 extern u8 lpm_get_wkup_pin_number_padconf(u32 wkup_src);
 extern u8 lpm_get_selected_sleep_mode(void);
 extern void lpm_reset_wake_reason_params(void);
+s32 unload_magic_words_thru_wkup_mmr(void);
 
 #define TCM_SIZE            0x8000U
 #define TCMB_BASE_ADDR      0U
@@ -359,7 +360,6 @@ static void clock_gate_legacy_peripherals(sbool enable)
 		}
 		if (timeout == 0U) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_CLK_GATE);
-			lpm_abort();
 		}
 	} else {
 		writel(WKUP_DIS_GRP_CLKSTOP_REQ, WKUP_CTRL_MMR_BASE + DM_GRP_CLKSTOP_REQ);
@@ -368,7 +368,6 @@ static void clock_gate_legacy_peripherals(sbool enable)
 		}
 		if (timeout == 0U) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_CLK_GATE);
-			lpm_abort();
 		}
 		writel(0, WKUP_CTRL_MMR_BASE + DM_CLKSTOP_EN);
 	}
