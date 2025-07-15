@@ -69,16 +69,19 @@
  *	Resource Management debug channel
  * \def TRACE_DEBUG_CHANNEL_PM
  *      Power Management debug channel
+ * \def TRACE_DEBUG_CHANNEL_LPM
+ *      Low Power Mode debug channel
  */
 #define TRACE_DEBUG_CHANNEL_BP                           0U
 #define TRACE_DEBUG_CHANNEL_SEC                          1U
 #define TRACE_DEBUG_CHANNEL_RM                           2U
 #define TRACE_DEBUG_CHANNEL_PM                           3U
+#define TRACE_DEBUG_CHANNEL_LPM                          4U
 
 /** \def TRACE_DEBUG_CHANNEL_COUNT
          Count that matches the number of channels defined above.
 */
-#define TRACE_DEBUG_CHANNEL_COUNT                        4U
+#define TRACE_DEBUG_CHANNEL_COUNT                        5U
 
 /*
  * Trace debug action codes
@@ -431,7 +434,39 @@
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_LOAD_MAGIC_WORDS                0x0038U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_MAIN_DM_LPSC_EN                 0x0051U
 
-
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_SAVE_SECMMR                        0x0001U
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_RECEIVED_PREPARE_SLEEP_MESSAGE     0x0002U
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_SAVE_SMS_PLL                       0x0003U
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_SAVE_FIREWALL_CONF                 0x0004U
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_ENC_AND_SAVE_CONTEXT               0x0005U
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_CONF_MAGIC_WORD                    0x0006U
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_IRQ_HANDLER                        0x0007U
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_A53_IN_WFI                         0x0008U
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_HSDIV_SAVE                         0x0009U
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_CLOCK_SUSPEND                      0x000AU
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_DISABLE_PLL                        0x000BU
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_A53_OFF                            0x000CU
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_LPSC_OFF_PHASE1                    0x000DU
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_PD_OFF_PHASE1                      0x000EU
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_LPSC_OFF_PHASE2                    0x000FU
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_PD_OFF_PHASE2                      0x0010U
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_OSC_OFF                            0x0011U
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_OSC_ON                             0x0012U
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_RESTORE_PLL                        0x0013U
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_LPSC_ISO_ON                        0x0014U
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_PD_ON_PHASE2                       0x0015U
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_LPSC_ON_PHASE2                     0x0016U
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_HSDIV_RESTORE                      0x0017U
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_PD_ON_PHASE1                       0x0018U
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_LPSC_ON_PHASE1                     0x0019U
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_CLK_RESUME                         0x001AU
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_CLEAR_MAGIC_WORD                   0x001BU
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_A53_ON                             0x001CU
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_FAIL                               0x001DU
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_EXIT_WFI                           0x001EU
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_RECEIVED_ENTER_SLEEP_MESSAGE       0x001FU
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_CRYPTO_INIT                        0x0020U
+#define TRACE_PM_ACTION_LPM_SEQ_TIFS_LATCH_CLR_FAIL                     0x0022U
 
 #define TRACE_PM_ACTION_LPM_SEQ_SHIFT                    8U
 
