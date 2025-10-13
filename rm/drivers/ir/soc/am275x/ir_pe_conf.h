@@ -3,7 +3,7 @@
  *
  * Static IR IRQ Maps for AM275X device
  *
- * Data version: 241217_073541
+ * Data version: 250905_121741
  *
  * Copyright (C) 2024-2025, Texas Instruments Incorporated
  * All rights reserved.

@@ -3,7 +3,7 @@
  *
  * Interrupt aggregator driver instance data definition
  *
- * Data version: 240823_113849
+ * Data version: 250903_173617
  *
  * Copyright (C) 2021-2025, Texas Instruments Incorporated
  * All rights reserved.
