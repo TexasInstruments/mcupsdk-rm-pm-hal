@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2024, Texas Instruments Incorporated
+ * Copyright (C) 2015-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -107,8 +107,8 @@ struct clk {
 
 /* Only allows div up to 63, and clk_ids up to 1023 */
 struct clk_parent {
-	u16	clk : 10;
-	u16	cdiv : 6;
+	unsigned int	clk : 10;
+	unsigned int	cdiv : 6;
 };
 
 struct clk_drv_data {
@@ -122,8 +122,8 @@ struct clk_data {
 	struct clk_parent		parent;
 	u16				freq_idx;
 	u8				range_idx;
-	u8				type : 2;
-	u8				flags : 6;
+	unsigned int			type : 2;
+	unsigned int			flags : 6;
 };
 
 struct clk_drv {

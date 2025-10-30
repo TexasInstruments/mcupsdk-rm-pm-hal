@@ -751,6 +751,9 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 		}
 	}
 
+	/* Enable interrupts used by DM firmware */
+	osal_dm_enable_interrupt();
+
 	/* Open the mode selection lock and clear constraints */
 	lpm_clear_sleep_data();
 

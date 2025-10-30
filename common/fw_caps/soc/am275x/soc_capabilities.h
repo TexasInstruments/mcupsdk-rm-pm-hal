@@ -37,10 +37,11 @@
 #include <config.h>
 #include <types/short_types.h>
 
-#define TISCI_MSG_FLAG_FW_CAP_MAX (0x02U)
+#define TISCI_MSG_FLAG_FW_CAP_MAX (0x03U)
 const u64 soc_fw_caps[TISCI_MSG_FLAG_FW_CAP_MAX] = {
 	TISCI_MSG_FLAG_FW_CAP_GENERIC_CAP,
 	TISCI_MSG_FLAG_FW_CAP_DM,
+	TISCI_MSG_FLAG_FW_CAP_LPM_PARTIAL_IO_ON,
 };
 
 #endif /* SOC_AM275X_CAPABILITIES_H */

@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2014-2024, Texas Instruments Incorporated
+ * Copyright (C) 2014-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,11 +61,11 @@
 
 struct psc_pd_data {
 #if defined (CONFIG_PSC_PD_MAX_COUNT_64)
-	u8	flags;
-	u8	depends;        /* pd_idx_t */
+	u8		flags;
+	u8		depends;        /* pd_idx_t */
 #else
-	u8	flags : 3;
-	u8	depends : 5;    /* pd_idx_t */
+	unsigned int	flags : 3;
+	unsigned int	depends : 5;    /* pd_idx_t */
 #endif
 	/**
 	 * Some domains need a clock running in order to transition. This
@@ -78,8 +78,8 @@ struct psc_pd_data {
 };
 
 struct psc_pd {
-	u8	use_count : 7;
-	sbool	pwr_up_enabled;
+	unsigned int	use_count : 7;
+	sbool		pwr_up_enabled;
 };
 
 /** Module is present, information in record is valid */
@@ -141,30 +141,30 @@ struct lpsc_module_data {
 	u8		depends_psc_idx;        /* psc_idx_t */
 	u8		powerdomain;            /* pd_idx_t */
 #else
-	u8		depends_psc_idx : 3;    /* psc_idx_t */
-	u8		powerdomain : 5;        /* pd_idx_t */
+	unsigned int	depends_psc_idx : 3;    /* psc_idx_t */
+	unsigned int	powerdomain : 5;        /* pd_idx_t */
 #endif
 };
 
 struct lpsc_module {
 	/** Incremented after module reset */
-	u32	loss_count;
+	u32		loss_count;
 	/** Non-zero if module should be active (clocks running) */
-	u8	use_count;
+	u8		use_count;
 	/** Non-zero if module should be powered-up */
-	u8	ret_count;
+	u8		ret_count;
 	/** Current programmed state (MDSTAT_STATE_[...]) */
-	u8	sw_state : 2;
+	unsigned int	sw_state : 2;
 	/**
 	 * True if the module is forced on due to a module reset. In this
 	 * case sw_state indicates SWRSTDISABLE but this module holds
 	 * a reference count to it's powerdomain.
 	 */
-	sbool	sw_mrst_ret;
-	u8	pwr_up_enabled : 1;
-	u8	pwr_up_ret : 1;
+	sbool		sw_mrst_ret;
+	unsigned int	pwr_up_enabled : 1;
+	unsigned int	pwr_up_ret : 1;
 	/** True if host has requested a module reset */
-	u8	mrst_active : 1;
+	unsigned int	mrst_active : 1;
 };
 
 /** Declare a default PSC powerdomain entry */

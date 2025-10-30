@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2023, Texas Instruments Incorporated
+ * Copyright (C) 2015-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -91,25 +91,25 @@ struct device;
  */
 struct dev_clk_data {
 	/** Type of table entry */
-	u16	type : 2;
+	unsigned int	type : 2;
 
 	/**
 	 * Modifying the frequency of this clock will attempt to modify
 	 * the parent freq.
 	 */
-	u16	modify_parent_freq : 1;
+	unsigned int	modify_parent_freq : 1;
 
 	/**
 	 * Clock divider, not valid for output, max 255 for parent otherwise
 	 * up to USHORT_MAX/8.
 	 */
-	u16	cdiv : 13;
+	unsigned int	cdiv : 13;
 
 	/** For mux, the number of parents, for parents the index for the mux */
-	u16	idx : 6;
+	unsigned int	idx : 6;
 
 	/** Which SoC clock this plugs into */
-	u16	clk : 10;
+	unsigned int	clk : 10;
 };
 
 /**
