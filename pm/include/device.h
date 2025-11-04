@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2025, Texas Instruments Incorporated
+ * Copyright (C) 2015-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,7 +58,6 @@
  * clock.
  */
 #define DEV_CLK_FLAG_DISABLE            BIT(0)
-#define DEV_CLK_FLAG_ALLOW_SSC          BIT(1)
 #define DEV_CLK_FLAG_ALLOW_FREQ_CHANGE  BIT(2)
 #define DEV_CLK_FLAG_INPUT_TERM         BIT(3)
 
@@ -133,12 +132,12 @@ struct dev_data {
 	struct soc_device_data	soc;
 
 	/** Number of device attached clocks */
-	unsigned int		n_clocks : 10;
+	u16			n_clocks : 10;
 
 	/** Const flags for this device, DEVD_FLAG_... */
-	unsigned int		flags : 3;
+	u16			flags : 3;
 
-	unsigned int		pm_devgrp : 3;
+	u16			pm_devgrp : 3;
 };
 
 /**

@@ -101,6 +101,19 @@ config CLK_PLL_16FFT_FRACF_CALIBRATION
 	help
 	 Enable support for 16fft pllfracf calibration
 
+config PM_CLK_SSC
+	bool "Enable support for Spread Spectrum Clocking (SSC)"
+	depends on CLK_PLL_16FFT
+	default n
+	default y if SOC_AM62
+	default y if SOC_AM62A
+	default y if SOC_AM62P
+	help
+	 Enable support for Spread Spectrum Clocking (SSC). SSC allows
+	 modulation of the clock frequency to reduce electromagnetic
+	 interference (EMI). This feature is only available on select
+	 SoCs with hardware SSC support in their PLL controllers.
+
 config CLK_PLL_DESKEW
 	bool "Enable support for 16fft deskew PLL"
 	depends on CLOCK

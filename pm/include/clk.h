@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2025, Texas Instruments Incorporated
+ * Copyright (C) 2015-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -70,6 +70,7 @@
 #define CLK_DATA_FLAG_ALLOW_FREQ_CHANGE         BIT(1)
 #define CLK_DATA_FLAG_NO_HW_REINIT              BIT(2)
 #define CLK_DATA_FLAG_BLOCK_FREQ_CHANGE         BIT(3)
+#define CLK_DATA_FLAG_ALLOW_SSC_CHANGE          BIT(4)
 
 #define CLK_FLAG_PWR_UP_EN                      ((u8) BIT(0))
 #define CLK_FLAG_PLL_BYPASS_FREQ                ((u8) BIT(1)) /* For PLLs */
@@ -87,6 +88,13 @@
 
 #define CLK_ID_NONE ((clk_idx_t) (0xFFFFFFFFU))
 
+struct ssc_data {
+	u32	modfreq_hz;
+	u32	mod_depth;
+	u8	spread_type;
+	u8	enable;
+};
+
 struct clk_range {
 	u32	min_hz;
 	u32	max_hz;
@@ -100,15 +108,14 @@ struct clk_default {
 
 struct clk {
 	u8	ref_count;
-	u8	ssc_block_count;
 	u8	freq_change_block_count;
 	u8	flags;
 };
 
 /* Only allows div up to 63, and clk_ids up to 1023 */
 struct clk_parent {
-	unsigned int	clk : 10;
-	unsigned int	cdiv : 6;
+	u16	clk : 10;
+	u16	cdiv : 6;
 };
 
 struct clk_drv_data {
@@ -122,8 +129,8 @@ struct clk_data {
 	struct clk_parent		parent;
 	u16				freq_idx;
 	u8				range_idx;
-	unsigned int			type : 2;
-	unsigned int			flags : 6;
+	u8				type : 2;
+	u8				flags : 6;
 };
 
 struct clk_drv {
@@ -204,6 +211,31 @@ struct clk_drv {
 	 * \return SUCCESS for success, error code otherwise
 	 */
 	s32 (*resume_restore)(struct clk *clkp);
+#endif
+
+#ifdef CONFIG_PM_CLK_SSC
+	/**
+	 * \brief Set the SSC state of a clock.
+	 *
+	 * \param clk The clock to modify
+	 * \param modfreq_hz The modulation frequency in Hz
+	 * \param mod_depth The modulation depth in "permyriad"
+	 * \param spread_type The spread type
+	 * \param enable True to enable, SFALSE to disable
+	 *
+	 * \return STRUE if the action succeeded
+	 */
+	s32 (*set_ssc)(struct clk *clkp, u32 modfreq_hz, u32 mod_depth, u8 spread_type, sbool enable);
+
+	/**
+	 * \brief Get the SSC state of a clock.
+	 *
+	 * \param clk The clock to query
+	 * \param ssc_datap The ssc data structure to populate
+	 *
+	 * \return STRUE if the clock has SSC enabled
+	 */
+	void (*get_ssc)(struct clk *clkp, struct ssc_data *ssc_datap);
 #endif
 };
 
@@ -332,8 +364,8 @@ u32 clk_get_state(struct clk *clkp);
 sbool clk_set_state(struct clk *clkp, sbool enable);
 sbool clk_get(struct clk *clkp);
 void clk_put(struct clk *clkp);
-void clk_ssc_allow(struct clk *clkp);
-void clk_ssc_block(struct clk *clkp);
+u32 clk_set_ssc(struct clk *clkp, u32 modfreq_hz, u32 mod_depth, u8 spread_type, sbool enable);
+u32 clk_get_ssc(struct clk *clkp, struct ssc_data *ssc_datap);
 void clk_freq_change_allow(struct clk *clkp);
 void clk_freq_change_block(struct clk *clkp);
 

@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2018-2021, Texas Instruments Incorporated
+ * Copyright (C) 2018-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -118,6 +118,26 @@ s32 query_freq_handler(u32 *msg_recv);
  *                   EFAIL   if the API failed to execute.
  */
 s32 get_freq_handler(u32 *msg_recv);
+
+/**
+ *  \brief  Set clock SSC Handler PM Function.
+ *
+ *  \param  msg_recv Pointer to the recieved and returned message. Same buffer
+ *                   used.
+ *  \return ret      SUCCESS if the API executed successfully.
+ *                   EFAIL   if the API failed to execute.
+ */
+s32 set_ssc_handler(u32 *msg_recv);
+
+/**
+ *  \brief  Get clock SSC Handler PM Function.
+ *
+ *  \param  msg_recv Pointer to the recieved and returned message. Same buffer
+ *                   used.
+ *  \return ret      SUCCESS if the API executed successfully.
+ *                   EFAIL   if the API failed to execute.
+ */
+s32 get_ssc_handler(u32 *msg_recv);
 
 /**
  *  \brief  Set Device State Handler PM Function.

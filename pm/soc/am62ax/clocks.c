@@ -3722,7 +3722,7 @@ const struct clk_data soc_clock_data[260] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= AM62AX_FREQ_VALUE_PLLFRACF2_SSMOD_16FFT_MAIN_17,
 		.data		= &clk_data_pllfracf2_ssmod_16fft_main_17.data_pll.data,
-		.flags		= 0,
+		.flags		= CLK_DATA_FLAG_ALLOW_SSC_CHANGE,
 	},
 	[CLK_AM62AX_PLLFRACF2_SSMOD_16FFT_MAIN_2_FOUTVCOP_CLK] =				{
 		.parent		=								{
