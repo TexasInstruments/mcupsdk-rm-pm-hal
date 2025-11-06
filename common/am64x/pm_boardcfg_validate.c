@@ -1,7 +1,9 @@
 /*
- * Data version: 250223_004013
+ * DMSC firmware
  *
- * Copyright (C) 2021-2025, Texas Instruments Incorporated
+ * Cortex-M3 (CM3) firmware for power management
+ *
+ * Copyright (C) 2024-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,18 +33,16 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef SOC_J784S4_CAPABILITIES_H
-#define SOC_J784S4_CAPABILITIES_H
 
-#include <config.h>
-#include <types/short_types.h>
+#include <stdbool.h>
+#include <types/address_types.h>
 
-#define TISCI_MSG_FLAG_FW_CAP_MAX (0x04U)
-const u64 soc_fw_caps[TISCI_MSG_FLAG_FW_CAP_MAX] = {
-	TISCI_MSG_FLAG_FW_CAP_GENERIC_CAP,
-	TISCI_MSG_FLAG_FW_CAP_LPM_BOARDCFG_MANAGED,
-	TISCI_MSG_FLAG_FW_CAP_DM,
-	TISCI_MSG_FLAG_FW_CAP_LPM_ENCRYPT_IMAGE,
-};
+bool is_suspend_initiator_valid(u8 initiator __attribute__((unused)))
+{
+	return false;
+}
 
-#endif /* SOC_J784S4_CAPABILITIES_H */
+bool is_lpm_mode_valid(u8 mode __attribute__((unused)))
+{
+	return false;
+}

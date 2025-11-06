@@ -54,6 +54,7 @@
 #define TISCI_MSG_FLAG_FW_CAP_LPM_ABORT                 BIT(9)
 #define TISCI_MSG_FLAG_FW_CAP_CLOCK_SSC                 BIT(10)
 #define TISCI_MSG_FLAG_FW_CAP_LPM_ENCRYPT_IMAGE         BIT(11)
+#define TISCI_MSG_FLAG_FW_CAP_LPM_BOARDCFG_MANAGED      BIT(12)
 
 /**
  * \brief Notification message to indicate the DMSC is available.

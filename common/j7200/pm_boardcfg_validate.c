@@ -1,7 +1,9 @@
 /*
- * Data version: 250223_004013
+ * DMSC firmware
  *
- * Copyright (C) 2021-2025, Texas Instruments Incorporated
+ * Cortex-M3 (CM3) firmware for power management
+ *
+ * Copyright (C) 2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,18 +33,58 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef SOC_J784S4_CAPABILITIES_H
-#define SOC_J784S4_CAPABILITIES_H
 
-#include <config.h>
-#include <types/short_types.h>
+#include <hosts.h>
+#include <types/address_types.h>
+#include <tisci/lpm/tisci_lpm.h>
+#include <stdbool.h>
 
-#define TISCI_MSG_FLAG_FW_CAP_MAX (0x04U)
-const u64 soc_fw_caps[TISCI_MSG_FLAG_FW_CAP_MAX] = {
-	TISCI_MSG_FLAG_FW_CAP_GENERIC_CAP,
-	TISCI_MSG_FLAG_FW_CAP_LPM_BOARDCFG_MANAGED,
-	TISCI_MSG_FLAG_FW_CAP_DM,
-	TISCI_MSG_FLAG_FW_CAP_LPM_ENCRYPT_IMAGE,
+const u8 valid_hosts[] = {
+	HOST_ID_MCU_0_R5_0,
+	HOST_ID_MCU_0_R5_1,
+	HOST_ID_MCU_0_R5_2,
+	HOST_ID_MCU_0_R5_3,
+	HOST_ID_A72_0,
+	HOST_ID_A72_1,
+	HOST_ID_A72_2,
+	HOST_ID_A72_3,
+	HOST_ID_MAIN_0_R5_0,
+	HOST_ID_MAIN_0_R5_1,
+	HOST_ID_MAIN_0_R5_2,
+	HOST_ID_MAIN_0_R5_3,
 };
 
-#endif /* SOC_J784S4_CAPABILITIES_H */
+const u8 lpm_modes[] = {
+	TISCI_MSG_VALUE_SLEEP_MODE_SOC_OFF,
+	TISCI_MSG_VALUE_SLEEP_MODE_IO_ONLY_PLUS_DDR,
+};
+
+bool is_suspend_initiator_valid(u8 initiator)
+{
+	bool ret = false;
+	int i;
+
+	for (i = 0; i < sizeof(valid_hosts); i++) {
+		if (initiator == valid_hosts[i]) {
+			ret = true;
+			break;
+		}
+	}
+
+	return ret;
+}
+
+bool is_lpm_mode_valid(u8 lpm_mode)
+{
+	bool ret = false;
+	int i;
+
+	for (i = 0; i < sizeof(lpm_modes); i++) {
+		if (lpm_mode == lpm_modes[i]) {
+			ret = true;
+			break;
+		}
+	}
+
+	return ret;
+}

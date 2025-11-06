@@ -3,7 +3,7 @@
  *
  * Board configuration Public API
  *
- * Copyright (C) 2018-2021, Texas Instruments Incorporated
+ * Copyright (C) 2018-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -122,6 +122,23 @@ typedef s32 (*boardcfg_process_fxn)(u8 host, u32 boardcfgp_low, u32 boardcfgp_hi
  * \return Error code on failure, SUCCESS otherwise.
  */
 s32 boardcfg_pm_receive_and_validate(u8 host, u32 boardcfg_pmp_low, u32 boardcfg_pmp_high, u16 boardcfg_pm_size, devgrp_t boardcfg_pm_devgrp);
+
+/**
+ * \brief Get a pointer to lpm boardcfg structure placed at an external address
+ *
+ * \param boardcfg_pmp_low Low 32-bit of boardcfg pm struct address.
+ * \param boardcfg_pmp_high High 32-bit of boardcfg pm struct address.
+ * \param boardcfg_pm_size Size of the full boardcfg pm struct.
+ *
+ * \return Pointer to the structure representing the LPM boardcfg, NULL in case of failure
+ */
+struct boardcfg_pm_lpm_cfg *boardcfg_pm_extract_lpm_cfg();
+
+/**
+ * \brief Is the LPM config inside of PM boarcfg valid
+ * \return boolean
+ */
+bool is_lpm_boardcfg_valid();
 
 /**
  * \brief Receive a boardcfg security placed at an external address and validate

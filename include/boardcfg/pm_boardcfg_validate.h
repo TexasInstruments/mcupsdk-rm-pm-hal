@@ -1,7 +1,9 @@
 /*
- * Data version: 250223_004013
+ * System Firmware Utility function
  *
- * Copyright (C) 2021-2025, Texas Instruments Incorporated
+ * Utility function for validating PM boardcfg
+ *
+ * Copyright (C) 2020-2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,18 +33,21 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef SOC_J784S4_CAPABILITIES_H
-#define SOC_J784S4_CAPABILITIES_H
+#ifndef PM_BOARDCFG_VALIDATE_H
+#define PM_BOARDCFG_VALIDATE_H
+#include <types/address_types.h>
+#include <stdbool.h>
 
-#include <config.h>
-#include <types/short_types.h>
+/** \brief Function to validate the host id given as part of pm-boardcfg
+ *
+ *  \param initiator Host id of the core that will initiate LPM
+ */
+bool is_suspend_initiator_valid(u8 initiator);
 
-#define TISCI_MSG_FLAG_FW_CAP_MAX (0x04U)
-const u64 soc_fw_caps[TISCI_MSG_FLAG_FW_CAP_MAX] = {
-	TISCI_MSG_FLAG_FW_CAP_GENERIC_CAP,
-	TISCI_MSG_FLAG_FW_CAP_LPM_BOARDCFG_MANAGED,
-	TISCI_MSG_FLAG_FW_CAP_DM,
-	TISCI_MSG_FLAG_FW_CAP_LPM_ENCRYPT_IMAGE,
-};
+/** \brief Function to validate the lpm mode given as part of pm-boardcfg
+ *
+ *  \param mode Low power mode that the system is supposed to go to
+ */
+bool is_lpm_mode_valid(u8 lpm_mode);
 
-#endif /* SOC_J784S4_CAPABILITIES_H */
+#endif /* PM_BOARDCFG_VALIDATE_H */
