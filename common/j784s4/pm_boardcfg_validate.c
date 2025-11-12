@@ -38,6 +38,7 @@
 #include <types/address_types.h>
 #include <tisci/lpm/tisci_lpm.h>
 #include <stdbool.h>
+#include <boardcfg/pm_boardcfg_validate.h>
 
 const u8 valid_hosts[] = {
 	HOST_ID_MCU_0_R5_0,

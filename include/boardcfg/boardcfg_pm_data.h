@@ -43,11 +43,11 @@
 #define BOARDCFG_PM_DEV_CFG_MAGIC_NUM          (0x74B1U)
 #define BOARDCFG_PM_RSVD_ENTRY_CFG_MAGIC_NUM   (0x3CFAU)
 
-#define BOARDCFG_PM_ABI_MAJ_VALUE_V0           (0x00)
-#define BOARDCFG_PM_ABI_MIN_VALUE_V0           (0x01)
+#define BOARDCFG_PM_ABI_MAJ_VALUE_V0           (0x00U)
+#define BOARDCFG_PM_ABI_MIN_VALUE_V0           (0x01U)
 
-#define BOARDCFG_PM_ABI_MAJ_VALUE_V1           (0x01)
-#define BOARDCFG_PM_ABI_MIN_VALUE_V1           (0x01)
+#define BOARDCFG_PM_ABI_MAJ_VALUE_V1           (0x01U)
+#define BOARDCFG_PM_ABI_MIN_VALUE_V1           (0x01U)
 #define PM_RSVD_ENTRIES_MAX                    (32U)
 
 /**
