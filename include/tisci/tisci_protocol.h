@@ -201,6 +201,9 @@ struct tisci_sec_header {
 #define TISCI_MSG_FWL_EXCP_NOTIFICATION         (0x900BU)
 /** Message to open debug firewalls using a certificate */
 #define TISCI_MSG_OPEN_DEBUG_FWLS               (0x900CU)
+/** Message to intialize all the firewalls for a specific dev group */
+#define TISCI_MSG_INIT_FWL_DEVGRP               (0x9046U)
+
 /**
  * Message to write partitioning data and provisioned keys to the keystore
  * memory
