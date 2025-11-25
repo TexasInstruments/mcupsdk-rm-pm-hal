@@ -56,6 +56,9 @@
 /** Indicate that this message is marked secure */
 #define TISCI_MSG_FLAG_SEC    BIT(2)
 
+/** Indicates that this request should not be forwarded to DM */
+#define TISCI_MSG_FLAG_REQ_NOTFWD2DM    BIT(3)
+
 /**
  * Response flag for a message that indicates success. If this flag is NOT
  * set then that is to be interpreted as a NAK.
