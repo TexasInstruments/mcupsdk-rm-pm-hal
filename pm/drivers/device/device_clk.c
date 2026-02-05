@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2025, Texas Instruments Incorporated
+ * Copyright (C) 2015-2026, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -646,12 +646,13 @@ sbool device_clk_set_ssc(struct device *dev, dev_clk_idx_t clk_idx, u32 modfreq_
 	}
 
 	/*
-	 * For PARENT or MUX type clocks, walk up the clock tree to find
+	 * For PARENT, MUX or INPUT type clocks, walk up the clock tree to find
 	 * the actual PLL that supports SSC. Forward request to clk_set_ssc().
 	 */
 	if (!done) {
 		if ((clock_data->type == DEV_CLK_TABLE_TYPE_PARENT) ||
-		    (clock_data->type == DEV_CLK_TABLE_TYPE_MUX)) {
+		    (clock_data->type == DEV_CLK_TABLE_TYPE_MUX) ||
+		    (clock_data->type == DEV_CLK_TABLE_TYPE_INPUT)) {
 			while ((ssc_set != STRUE) && (search_complete != STRUE)) {
 				/* Walk up to find parent PLL with SSC capability */
 				parent_clk = clk_get_parent(parent);
@@ -693,6 +694,7 @@ sbool device_clk_get_ssc(struct device *dev, dev_clk_idx_t clk_idx, struct ssc_d
 	sbool search_complete = SFALSE;
 	dev_clk_idx_t clk_idx_val = clk_idx;
 
+	/* Validate clock index on device */
 	if (!done) {
 		clock_data = get_dev_clk_data(dev, clk_idx_val);
 		if (clock_data == NULL) {
@@ -701,6 +703,7 @@ sbool device_clk_get_ssc(struct device *dev, dev_clk_idx_t clk_idx, struct ssc_d
 		}
 	}
 
+	/* Get the clock structure */
 	if (!done) {
 		parent = dev_get_clk(dev, clk_idx_val);
 		if (parent == NULL) {
@@ -709,11 +712,16 @@ sbool device_clk_get_ssc(struct device *dev, dev_clk_idx_t clk_idx, struct ssc_d
 		}
 	}
 
+	/*
+	 * For PARENT, MUX or INPUT type clocks, walk up the clock tree to find
+	 * the actual PLL that supports SSC. Forward request to clk_get_ssc().
+	 */
 	if (!done) {
 		if ((clock_data->type == DEV_CLK_TABLE_TYPE_PARENT) ||
-		    (clock_data->type == DEV_CLK_TABLE_TYPE_MUX)) {
+		    (clock_data->type == DEV_CLK_TABLE_TYPE_MUX) ||
+		    (clock_data->type == DEV_CLK_TABLE_TYPE_INPUT)) {
 			while ((ssc_found != STRUE) && (search_complete != STRUE)) {
-				/* Find the parent */
+				/* Walk up to find parent PLL with SSC capability */
 				parent_clk = clk_get_parent(parent);
 				if (parent_clk == NULL) {
 					search_complete = STRUE;
@@ -722,6 +730,7 @@ sbool device_clk_get_ssc(struct device *dev, dev_clk_idx_t clk_idx, struct ssc_d
 					if (parent == NULL) {
 						search_complete = STRUE;
 					} else {
+						/* Call internal clock layer to get SSC configuration of hardware */
 						ssc_found = (clk_get_ssc(parent, ssc_datap) == 0U) ? STRUE : SFALSE;
 					}
 				}

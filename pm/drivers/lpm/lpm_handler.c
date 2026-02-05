@@ -471,6 +471,34 @@ static void lpm_enter_partial_io_mode(void)
 	lpm_hang_abort();
 }
 
+static void lpm_get_wake_reason_params(struct tisci_msg_lpm_wake_reason_resp *wake_params)
+{
+	u8 val = (u8) readl(WKUP_CTRL_BASE + WKUP_PIN_SRC_REG);
+
+	/* Get the wake parameters for other modes */
+	lpm_get_wake_info(wake_params);
+
+	/* If no valid mode is entered, check if partial I/O was the last entered mode */
+	if (wake_params->mode == TISCI_MSG_VALUE_SLEEP_MODE_INVALID) {
+		/* If pin number is valid, update the correct mode, source and pin */
+		if ((val >= CAN_IO_WKUP_PIN_NUM_START) && (val <= CAN_IO_WKUP_PIN_NUM_END)) {
+			wake_params->wake_pin = val;
+			wake_params->wake_source = TISCI_MSG_VALUE_LPM_WAKE_SOURCE_CAN_IO;
+			wake_params->mode = TISCI_MSG_VALUE_SLEEP_MODE_PARTIAL_IO;
+		} else if (val == TISCI_MSG_VALUE_LPM_WAKE_PIN_INVALID) {
+			/* If this is partial I/O exit but the wakeup source is unknown */
+			wake_params->wake_pin = val;
+			wake_params->wake_source = TISCI_MSG_VALUE_LPM_WAKE_SOURCE_INVALID;
+			wake_params->mode = TISCI_MSG_VALUE_SLEEP_MODE_PARTIAL_IO;
+		}
+	}
+}
+
+static void lpm_reset_partial_io_wake_info(void)
+{
+	writel(WKUP_PIN_SRC_CLR, WKUP_CTRL_BASE + WKUP_PIN_SRC_REG);
+}
+
 s32 dm_prepare_sleep_handler(u32 *msg_recv)
 {
 	struct tisci_msg_prepare_sleep_req *req =
@@ -509,6 +537,7 @@ s32 dm_prepare_sleep_handler(u32 *msg_recv)
 
 	/* Reset the wake reason values */
 	lpm_reset_wake_reason_params();
+	lpm_reset_partial_io_wake_info();
 
 	switch (mode) {
 	case TISCI_MSG_VALUE_SLEEP_MODE_IO_ONLY_PLUS_DDR:
@@ -772,8 +801,8 @@ s32 dm_lpm_wake_reason_handler(u32 *msg_recv)
 	/* Write 0 to the timestamp value as the support to get time in sleep has not been added yet */
 	resp->wake_timestamp = 0;
 
-	/* Update wakeup source, wakeup pin and last entered lpm */
-	lpm_get_wake_info(resp);
+	/* Update the wake reason params */
+	lpm_get_wake_reason_params(resp);
 
 	return ret;
 }

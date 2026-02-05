@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2018-2025, Texas Instruments Incorporated
+ * Copyright (C) 2018-2026, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -158,6 +158,16 @@ s32 set_device_handler(u32 *msg_recv);
  *                   EFAIL   if the API failed to execute.
  */
 s32 get_device_handler(u32 *msg_recv);
+
+/**
+ *  \brief  Get Multiple Device States Handler PM Function.
+ *
+ *  \param  msg_recv Pointer to the recieved and returned message. Same buffer
+ *                   used.
+ *  \return ret      SUCCESS if the API executed successfully.
+ *                   EFAIL   if the API failed to execute.
+ */
+s32 get_device_multiple_handler(u32 *msg_recv);
 
 /**
  *  \brief  Set Device Resets Handler PM Function.

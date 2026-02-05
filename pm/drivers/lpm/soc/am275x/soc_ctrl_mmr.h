@@ -79,6 +79,18 @@ extern "C" {
 #define WKUP0_EN                                (0x00018180U)
 #define WKUP0_EN_CANUART_IO_DAISY_CHAIN          BIT(18)
 
+/* BACKUP0 REG */
+#define WKUP_BACKUP0_REG                        (0x0001C100U)
+
+#define WKUP_PIN_SRC_REG                        WKUP_BACKUP0_REG
+#define WKUP_PIN_SRC_CLR                        (0U)
+#define WKUP_PIN_SRC_EARLY_WAKE_EVENT           BIT(8)
+#define WKUP_PIN_SRC_MASK                       0xFF
+
+/* CAN IO Pin Numbers that can wakeup the SoC from partial I/O mode */
+#define CAN_IO_WKUP_PIN_NUM_START               (5U)
+#define CAN_IO_WKUP_PIN_NUM_END                 (16U)
+
 #ifdef __cplusplus
 }
 

@@ -111,6 +111,36 @@ static void lpm_enter_partial_io_mode(void)
 	lpm_hang_abort();
 }
 
+static void lpm_get_partial_io_wake_info(struct tisci_msg_lpm_wake_reason_resp *wake_params)
+{
+	u32 val = readl(WKUP_CTRL_BASE + WKUP_PIN_SRC_REG);
+
+	/* Set the defaults assuming partial I/O mode with invalid wake source */
+	wake_params->wake_pin = TISCI_MSG_VALUE_LPM_WAKE_PIN_INVALID;
+	wake_params->wake_source = TISCI_MSG_VALUE_LPM_WAKE_SOURCE_INVALID;
+	wake_params->mode = TISCI_MSG_VALUE_SLEEP_MODE_PARTIAL_IO;
+
+	if ((val & WKUP_PIN_SRC_EARLY_WAKE_EVENT) == WKUP_PIN_SRC_EARLY_WAKE_EVENT) {
+		/* If spurious wake is detected, update the pin and source */
+		wake_params->wake_source = TISCI_MSG_VALUE_LPM_WAKE_SOURCE_EARLY_WAKE_IPOR;
+		if (((val & WKUP_PIN_SRC_MASK) >= CAN_IO_WKUP_PIN_NUM_START) && ((val & WKUP_PIN_SRC_MASK) <= CAN_IO_WKUP_PIN_NUM_END)) {
+			wake_params->wake_pin = (u8) val;
+		}
+	} else if ((val >= CAN_IO_WKUP_PIN_NUM_START) && (val <= CAN_IO_WKUP_PIN_NUM_END)) {
+		/* If pin number is valid, update the correct source and pin */
+		wake_params->wake_pin = (u8) val;
+		wake_params->wake_source = TISCI_MSG_VALUE_LPM_WAKE_SOURCE_CAN_IO;
+	} else if (val == WKUP_PIN_SRC_CLR) {
+		/* If val is same as clear then it is not partial I/O, set the mode parameter to invalid */
+		wake_params->mode = TISCI_MSG_VALUE_SLEEP_MODE_INVALID;
+	}
+}
+
+static void lpm_reset_partial_io_wake_info(void)
+{
+	writel(WKUP_PIN_SRC_CLR, WKUP_CTRL_BASE + WKUP_PIN_SRC_REG);
+}
+
 s32 dm_prepare_sleep_handler(u32 *msg_recv)
 {
 	struct tisci_msg_prepare_sleep_req *req =
@@ -121,12 +151,33 @@ s32 dm_prepare_sleep_handler(u32 *msg_recv)
 
 	pm_trace(TRACE_PM_ACTION_MSG_RECEIVED, TISCI_MSG_PREPARE_SLEEP);
 
+	/* Reset the wake reason values */
+	lpm_reset_partial_io_wake_info();
+
 	if (mode == TISCI_MSG_VALUE_SLEEP_MODE_PARTIAL_IO) {
 		/* Enable CANUART IO daisy chain and enter partial io mode */
 		lpm_enter_partial_io_mode();
 	} else {
 		ret = -EFAIL;
 	}
+
+	return ret;
+}
+
+s32 dm_lpm_wake_reason_handler(u32 *msg_recv)
+{
+	struct tisci_msg_lpm_wake_reason_resp *resp =
+		(struct tisci_msg_lpm_wake_reason_resp *) msg_recv;
+	s32 ret = SUCCESS;
+
+	pm_trace(TRACE_PM_ACTION_MSG_RECEIVED, TISCI_MSG_LPM_WAKE_REASON);
+
+	resp->hdr.flags = 0U;
+	/* Write 0 to the timestamp value as the support to get time in sleep has not been added yet */
+	resp->wake_timestamp = 0U;
+
+	/* Update the wake reason params */
+	lpm_get_partial_io_wake_info(resp);
 
 	return ret;
 }

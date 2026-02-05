@@ -3,7 +3,7 @@
  *
  * TISCI LPM layer for managing Low Power Mode TISCI message handlers
  *
- * Copyright (C) 2021-2025, Texas Instruments Incorporated
+ * Copyright (C) 2021-2026, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -77,6 +77,11 @@
 #define TISCI_MSG_VALUE_SLEEP_MODE_RTC_PLUS_DDR         0x6U
 
 /**
+ * Sleep mode in which complete SOC except the RTC is turned off
+ */
+#define TISCI_MSG_VALUE_SLEEP_MODE_RTC_ONLY             0x7U
+
+/**
  * Value passed to request device manager for low power mode selection.
  */
 #define TISCI_MSG_VALUE_SLEEP_MODE_DM_MANAGED           0xFDU
@@ -141,6 +146,7 @@
 #define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_MCU_IO                          0x81U
 #define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_CAN_IO                          0x82U
 #define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_MCU_IPC                         0x90U
+#define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_EARLY_WAKE_IPOR                 0xA0U
 #define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_INVALID                         0xFFU
 
 /** Used by TISCI_MSG_LPM_WAKE_REASON to return wake pin number as invalid */
