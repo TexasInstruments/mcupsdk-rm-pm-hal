@@ -3,7 +3,7 @@
  *
  * Cortex-M4 (CM4) firmware for power management
  *
- * Copyright (C) 2025, Texas Instruments Incorporated
+ * Copyright (C) 2025-2026, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,14 +36,61 @@
 
 #include <stdbool.h>
 #include <types/address_types.h>
+#include <tisci/lpm/tisci_lpm.h>
+#include <hosts.h>
 #include <boardcfg/pm_boardcfg_validate.h>
 
-bool is_suspend_initiator_valid(u8 initiator __attribute__((unused)))
+const u8 valid_hosts[] = {
+	HOST_ID_MCU_0_R5_0,
+	HOST_ID_MCU_0_R5_1,
+	HOST_ID_MCU_0_R5_2,
+	HOST_ID_MCU_0_R5_3,
+	HOST_ID_A72_0,
+	HOST_ID_A72_1,
+	HOST_ID_A72_2,
+	HOST_ID_A72_3,
+	HOST_ID_A72_4,
+	HOST_ID_MAIN_0_R5_0,
+	HOST_ID_MAIN_0_R5_1,
+	HOST_ID_MAIN_0_R5_2,
+	HOST_ID_MAIN_0_R5_3,
+	HOST_ID_MAIN_1_R5_0,
+	HOST_ID_MAIN_1_R5_1,
+	HOST_ID_MAIN_1_R5_2,
+	HOST_ID_MAIN_1_R5_3
+};
+
+const u8 lpm_modes[] = {
+	TISCI_MSG_VALUE_SLEEP_MODE_SOC_OFF,
+	TISCI_MSG_VALUE_SLEEP_MODE_IO_ONLY_PLUS_DDR,
+};
+
+bool is_suspend_initiator_valid(u8 initiator)
 {
-	return false;
+	bool ret = false;
+	int i;
+
+	for (i = 0; i < sizeof(valid_hosts); i++) {
+		if (initiator == valid_hosts[i]) {
+			ret = true;
+			break;
+		}
+	}
+
+	return ret;
 }
 
-bool is_lpm_mode_valid(u8 mode __attribute__((unused)))
+bool is_lpm_mode_valid(u8 lpm_mode)
 {
-	return false;
+	bool ret = false;
+	int i;
+
+	for (i = 0; i < sizeof(lpm_modes); i++) {
+		if (lpm_mode == lpm_modes[i]) {
+			ret = true;
+			break;
+		}
+	}
+
+	return ret;
 }
