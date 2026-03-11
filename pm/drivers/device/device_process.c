@@ -377,9 +377,9 @@ s32 get_device_multiple_handler(u32 *msg_recv)
 
 		bitmap_idx = 0U;
 		for (dev_id = start_device_id; dev_id <= end_device_id; dev_id++) {
-			const struct dev_data *dev_data = soc_device_data_arr[dev_id];
+			const struct dev_data *data = soc_device_data_arr[dev_id];
 
-			if (dev_data == NULL) {
+			if (data == NULL) {
 				hw_state = 0U;
 			} else {
 				hw_state = device_get_state(&soc_devices[dev_id]);

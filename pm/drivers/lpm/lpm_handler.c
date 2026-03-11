@@ -3,7 +3,7 @@
  *
  * Handlers for Low Power Mode implementation
  *
- * Copyright (C) 2021-2025, Texas Instruments Incorporated
+ * Copyright (C) 2021-2026, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -490,6 +490,8 @@ static void lpm_get_wake_reason_params(struct tisci_msg_lpm_wake_reason_resp *wa
 			wake_params->wake_pin = val;
 			wake_params->wake_source = TISCI_MSG_VALUE_LPM_WAKE_SOURCE_INVALID;
 			wake_params->mode = TISCI_MSG_VALUE_SLEEP_MODE_PARTIAL_IO;
+		} else {
+			/* Empty else condition to fix MISRA.IF.NO_ELSE violation. */
 		}
 	}
 }
