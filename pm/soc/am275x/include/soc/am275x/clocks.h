@@ -1,7 +1,7 @@
 /*
  * Data version: 251105_135430
  *
- * Copyright (C) 2017-2025 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2017-2026 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
  */
 #ifndef SOC_AM275X_CLOCKS_H
@@ -1451,6 +1451,8 @@
 
 #define AM275X_DEV_WKUP_PSC0_CLK 0
 #define AM275X_DEV_WKUP_PSC0_SLOW_CLK 1
+
+#define AM275X_DEV_HSM0_DAP_CLK 0
 
 #define AM275X_DEV_MCSPI0_CLKSPIREF_CLK 0
 #define AM275X_DEV_MCSPI0_IO_CLKSPII_CLK 1

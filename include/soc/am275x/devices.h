@@ -1,7 +1,7 @@
 /*
  * Data version: 251105_135430
  *
- * Copyright (C) 2017-2025 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2017-2026 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
  */
 #ifndef SOC_AM275X_DEVICES_H
@@ -122,6 +122,7 @@
 #define AM275X_DEV_C7X256V0_DEBUG 212U
 #define AM275X_DEV_C7X256V0_GICSS 213U
 #define AM275X_DEV_C7X256V0_PBIST 214U
+#define AM275X_DEV_HSM0 225U
 #define AM275X_DEV_WKUP_CLKOUT_SEL_DEV_VD 226U
 #define AM275X_DEV_MCU_OBSCLK_MUX_SEL_DEV_VD 227U
 #define AM275X_DEV_OBSCLK0_MUX_SEL_DEV_VD 228U
