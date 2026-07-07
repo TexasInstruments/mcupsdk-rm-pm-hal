@@ -3,7 +3,7 @@
  *
  * Handlers for Low Power Mode implementation
  *
- * Copyright (C) 2025, Texas Instruments Incorporated
+ * Copyright (C) 2025-2026, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -133,6 +133,8 @@ static void lpm_get_partial_io_wake_info(struct tisci_msg_lpm_wake_reason_resp *
 	} else if (val == WKUP_PIN_SRC_CLR) {
 		/* If val is same as clear then it is not partial I/O, set the mode parameter to invalid */
 		wake_params->mode = TISCI_MSG_VALUE_SLEEP_MODE_INVALID;
+	} else {
+		/* Empty else condition to fix MISRA.IF.NO_ELSE violation. */
 	}
 }
 
@@ -141,7 +143,7 @@ static void lpm_reset_partial_io_wake_info(void)
 	writel(WKUP_PIN_SRC_CLR, WKUP_CTRL_BASE + WKUP_PIN_SRC_REG);
 }
 
-s32 dm_prepare_sleep_handler(u32 *msg_recv)
+s32 lpm_prepare_sleep_handler(u32 *msg_recv)
 {
 	struct tisci_msg_prepare_sleep_req *req =
 		(struct tisci_msg_prepare_sleep_req *) msg_recv;
@@ -164,7 +166,7 @@ s32 dm_prepare_sleep_handler(u32 *msg_recv)
 	return ret;
 }
 
-s32 dm_lpm_wake_reason_handler(u32 *msg_recv)
+s32 lpm_wake_reason_handler(u32 *msg_recv)
 {
 	struct tisci_msg_lpm_wake_reason_resp *resp =
 		(struct tisci_msg_lpm_wake_reason_resp *) msg_recv;

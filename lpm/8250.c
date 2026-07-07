@@ -3,7 +3,7 @@
  *
  * Minimal driver for UART access
  *
- * Copyright (C) 2021-2024, Texas Instruments Incorporated
+ * Copyright (C) 2021-2026, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,7 @@
  */
 
 #include <config.h>
-#include <uart_config.h>
+#include <lpm_uart_config.h>
 
 #include "lpm_io.h"
 
@@ -50,47 +50,47 @@ static void lpm_serial_8250_init(const u32 uart_clk)
 {
 	u32 val, clkdiv;
 
-	clkdiv = uart_clk / (16U * UART_BAUD_RATE);
+	clkdiv = uart_clk / (16U * LPM_UART_BAUD_RATE);
 
 	/* This read operation also acts as a fence */
-	val = lpm_serial_8250_readl(UART_BASE_ADDRESS + UART_16550_LCR);
+	val = lpm_serial_8250_readl(LPM_UART_BASE_ADDRESS + UART_16550_LCR);
 	val |= UART_16550_LCR_DLAB;
-	lpm_serial_8250_writel(val, (UART_BASE_ADDRESS + UART_16550_LCR));
+	lpm_serial_8250_writel(val, (LPM_UART_BASE_ADDRESS + UART_16550_LCR));
 
 	val = clkdiv & 0xFFU;
-	lpm_serial_8250_writel(val, (UART_BASE_ADDRESS + UART_16550_DLL));
+	lpm_serial_8250_writel(val, (LPM_UART_BASE_ADDRESS + UART_16550_DLL));
 	val = (clkdiv >> 8U) & 0xFFU;
-	lpm_serial_8250_writel(val, (UART_BASE_ADDRESS + UART_16550_DLH));
+	lpm_serial_8250_writel(val, (LPM_UART_BASE_ADDRESS + UART_16550_DLH));
 
 	/*
 	 * This read operation also acts as a fence to make sure that
 	 * DLL DLH values have actually been "stuck"
 	 */
-	val = lpm_serial_8250_readl(UART_BASE_ADDRESS + UART_16550_LCR);
+	val = lpm_serial_8250_readl(LPM_UART_BASE_ADDRESS + UART_16550_LCR);
 	val &= (~UART_16550_LCR_DLAB);
-	lpm_serial_8250_writel(val, (UART_BASE_ADDRESS + UART_16550_LCR));
-	lpm_serial_8250_writel(UART_16550_LCR_WORDSZ_8, (UART_BASE_ADDRESS + UART_16550_LCR));
-	lpm_serial_8250_writel(0, (UART_BASE_ADDRESS + UART_16550_IER));
+	lpm_serial_8250_writel(val, (LPM_UART_BASE_ADDRESS + UART_16550_LCR));
+	lpm_serial_8250_writel(UART_16550_LCR_WORDSZ_8, (LPM_UART_BASE_ADDRESS + UART_16550_LCR));
+	lpm_serial_8250_writel(0, (LPM_UART_BASE_ADDRESS + UART_16550_IER));
 	/*
 	 * Force a posted read to make sure things are in-order before we
 	 * enable UART via MDR1 - we ignore result
 	 */
-	lpm_serial_8250_readl(UART_BASE_ADDRESS + UART_16550_IER);
+	lpm_serial_8250_readl(LPM_UART_BASE_ADDRESS + UART_16550_IER);
 
-	lpm_serial_8250_writel(0x0, (UART_BASE_ADDRESS + UART_16550_MDR1));
+	lpm_serial_8250_writel(0x0, (LPM_UART_BASE_ADDRESS + UART_16550_MDR1));
 	/*
 	 * Force a posted read to make sure things are in-order before we
 	 * enable FIFO - we ignore result
 	 */
-	lpm_serial_8250_readl(UART_BASE_ADDRESS + UART_16550_MDR1);
+	lpm_serial_8250_readl(LPM_UART_BASE_ADDRESS + UART_16550_MDR1);
 
-	lpm_serial_8250_writel(UART_16550_FCR_FIFOEN, (UART_BASE_ADDRESS + UART_16550_FCR));
-	lpm_serial_8250_writel((UART_16550_MCR_RTS | UART_16550_MCR_DTR), (UART_BASE_ADDRESS + UART_16550_MCR));
+	lpm_serial_8250_writel(UART_16550_FCR_FIFOEN, (LPM_UART_BASE_ADDRESS + UART_16550_FCR));
+	lpm_serial_8250_writel((UART_16550_MCR_RTS | UART_16550_MCR_DTR), (LPM_UART_BASE_ADDRESS + UART_16550_MCR));
 	/*
 	 * Force a posted read to make sure FIFO is enabled before we send
 	 * data - we ignore result
 	 */
-	lpm_serial_8250_readl(UART_BASE_ADDRESS + UART_16550_MCR);
+	lpm_serial_8250_readl(LPM_UART_BASE_ADDRESS + UART_16550_MCR);
 }
 
 /**
@@ -107,10 +107,10 @@ static int lpm_console_tx(u8 data)
 	* available before writing to avoid dropping chars.
 	*/
 	do {
-		val = lpm_serial_8250_readl(UART_BASE_ADDRESS + UART_16550_LSR);
+		val = lpm_serial_8250_readl(LPM_UART_BASE_ADDRESS + UART_16550_LSR);
 	} while ((i++ < 10000U) && ((val & UART_16550_LSR_TX_FIFO_E) == 0U));
 
-	lpm_serial_8250_writel(data, (UART_BASE_ADDRESS + UART_16550_THR));
+	lpm_serial_8250_writel(data, (LPM_UART_BASE_ADDRESS + UART_16550_THR));
 
 	return 0;
 }
@@ -128,12 +128,12 @@ int lpm_puts(char const *str)
 
 void lpm_console_init(void)
 {
-	lpm_serial_8250_init(UART_CLK_FREQ);
+	lpm_serial_8250_init(LPM_UART_CLK_FREQ);
 }
 
 void lpm_console_bypass_init(void)
 {
-	lpm_serial_8250_init(UART_CLK_FREQ_BYPASS_STATE);
+	lpm_serial_8250_init(LPM_UART_CLK_FREQ_BYPASS_STATE);
 }
 
 void lpm_trace_debug_uart(u8 *str, u8 len)

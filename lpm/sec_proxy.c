@@ -3,7 +3,7 @@
  *
  * Secure Proxy driver for Message Transfer
  *
- * Copyright (C) 2021-2025, Texas Instruments Incorporated
+ * Copyright (C) 2021-2026, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,7 @@
 #include <lib/bitops.h>
 #include <types/errno.h>
 #include <types/sbool.h>
-#include <baseaddress.h>
+#include <lpm_baseaddress.h>
 #include "lpm_string.h"
 #include "timeout.h"
 #include "sec_proxy.h"
@@ -144,30 +144,30 @@ static s32 trans_message(u32 target_base, u32 rt_base, sbool is_rx, u8 thread_id
 
 s32 sproxy_send_msg_rom(void *msg, u32 len)
 {
-	return trans_message(ROM_SEC_PROXY_TARGET_ADDRESS, ROM_SEC_PROXY_RT_ADDRESS, SPROXY_SEND, SEC_PROXY_MSG_TX_TID, msg, len, SFALSE);
+	return trans_message(LPM_ROM_SEC_PROXY_TARGET_ADDRESS, LPM_ROM_SEC_PROXY_RT_ADDRESS, SPROXY_SEND, LPM_SEC_PROXY_MSG_TX_TID, msg, len, SFALSE);
 }
 
 s32 sproxy_receive_msg_rom(void *msg, u32 len)
 {
-	return trans_message(ROM_SEC_PROXY_TARGET_ADDRESS, ROM_SEC_PROXY_RT_ADDRESS, SPROXY_GET, SEC_PROXY_MSG_RX_TID, msg, len, SFALSE);
+	return trans_message(LPM_ROM_SEC_PROXY_TARGET_ADDRESS, LPM_ROM_SEC_PROXY_RT_ADDRESS, SPROXY_GET, LPM_SEC_PROXY_MSG_RX_TID, msg, len, SFALSE);
 }
 
 s32 sproxy_send_msg_tifs_fw(void *msg, u32 len)
 {
-	return trans_message(TIFS_SEC_PROXY_TARGET_ADDRESS, TIFS_SEC_PROXY_RT_ADDRESS, SPROXY_SEND, TIFS_SEC_PROXY_MSG_TX_TID, msg, len, SFALSE);
+	return trans_message(LPM_TIFS_SEC_PROXY_TARGET_ADDRESS, LPM_TIFS_SEC_PROXY_RT_ADDRESS, SPROXY_SEND, LPM_TIFS_SEC_PROXY_MSG_TX_TID, msg, len, SFALSE);
 }
 
 s32 sproxy_receive_msg_tifs_fw(void *msg, u32 len)
 {
-	return trans_message(TIFS_SEC_PROXY_TARGET_ADDRESS, TIFS_SEC_PROXY_RT_ADDRESS, SPROXY_GET, TIFS_SEC_PROXY_MSG_RX_TID, msg, len, SFALSE);
+	return trans_message(LPM_TIFS_SEC_PROXY_TARGET_ADDRESS, LPM_TIFS_SEC_PROXY_RT_ADDRESS, SPROXY_GET, LPM_TIFS_SEC_PROXY_MSG_RX_TID, msg, len, SFALSE);
 }
 
 s32 sproxy_send_msg_dm2dmsc_fw(void *msg, u32 len)
 {
-	return trans_message(TIFS_SEC_PROXY_TARGET_ADDRESS, TIFS_SEC_PROXY_RT_ADDRESS, SPROXY_SEND, DM2DMSC_SEC_PROXY_MSG_TX_TID, msg, len, STRUE);
+	return trans_message(LPM_TIFS_SEC_PROXY_TARGET_ADDRESS, LPM_TIFS_SEC_PROXY_RT_ADDRESS, SPROXY_SEND, LPM_DM2DMSC_SEC_PROXY_MSG_TX_TID, msg, len, STRUE);
 }
 
 s32 sproxy_receive_msg_dm2dmsc_fw(void *msg, u32 len)
 {
-	return trans_message(TIFS_SEC_PROXY_TARGET_ADDRESS, TIFS_SEC_PROXY_RT_ADDRESS, SPROXY_GET, DM2DMSC_SEC_PROXY_MSG_RX_TID, msg, len, STRUE);
+	return trans_message(LPM_TIFS_SEC_PROXY_TARGET_ADDRESS, LPM_TIFS_SEC_PROXY_RT_ADDRESS, SPROXY_GET, LPM_DM2DMSC_SEC_PROXY_MSG_RX_TID, msg, len, STRUE);
 }

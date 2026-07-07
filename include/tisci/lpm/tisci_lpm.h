@@ -147,6 +147,7 @@
 #define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_CAN_IO                          0x82U
 #define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_MCU_IPC                         0x90U
 #define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_EARLY_WAKE_IPOR                 0xA0U
+#define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_PMIC_GPIO                       0xB0U
 #define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_INVALID                         0xFFU
 
 /** Used by TISCI_MSG_LPM_WAKE_REASON to return wake pin number as invalid */

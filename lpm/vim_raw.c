@@ -3,7 +3,7 @@
  *
  * VIM Raw driver for direct interrupt manipulation
  *
- * Copyright (C) 2021-2024, Texas Instruments Incorporated
+ * Copyright (C) 2021-2026, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,7 @@
  */
 
 #include <lib/bitops.h>
-#include <baseaddress.h>
+#include <lpm_baseaddress.h>
 
 #include "lpm_io.h"
 #include "vim_raw.h"
@@ -60,9 +60,9 @@ void vim_set_intr_enable(u32 intr, int enable)
 	u32 mask = ((u32) 1U << VINTR(intr));
 
 	if (enable == INTR_ENABLE) {
-		writel(mask, VIM_BASE + VIM_GRP_EN_SET(intr));
+		writel(mask, LPM_VIM_BASE + VIM_GRP_EN_SET(intr));
 	} else {
-		writel(mask, VIM_BASE + VIM_GRP_EN_CLEAR(intr));
+		writel(mask, LPM_VIM_BASE + VIM_GRP_EN_CLEAR(intr));
 	}
 }
 
@@ -71,14 +71,14 @@ u32 vim_get_intr_status(u32 intr)
 	u32 val = 0;
 	u32 mask = ((u32) 1U << VINTR(intr));
 
-	val = readl(VIM_BASE + VIM_GRP_INTR_STAT(intr));
+	val = readl(LPM_VIM_BASE + VIM_GRP_INTR_STAT(intr));
 
 	return val & mask;
 }
 
 void vim_clear_intr(u32 intr)
 {
-	writel((u32) 1U << VINTR(intr), VIM_BASE + VIM_GRP_STS_CLEAR(intr));
+	writel((u32) 1U << VINTR(intr), LPM_VIM_BASE + VIM_GRP_STS_CLEAR(intr));
 }
 
 s32 vim_get_intr_number(void)
@@ -86,8 +86,8 @@ s32 vim_get_intr_number(void)
 	u32 val;
 	s32 ret = -EINVAL;
 
-	readl(VIM_BASE + VIM_IRQ_VECTOR_ADDRESS);
-	val = readl(VIM_BASE + VIM_ACTIVE_IRQ);
+	readl(LPM_VIM_BASE + VIM_IRQ_VECTOR_ADDRESS);
+	val = readl(LPM_VIM_BASE + VIM_ACTIVE_IRQ);
 
 	if ((val & VIM_ACTIVE_IRQ_VALID) == VIM_ACTIVE_IRQ_VALID) {
 		ret = val & VIM_ACTIVE_IRQ_NUM_MASK;
@@ -98,5 +98,5 @@ s32 vim_get_intr_number(void)
 
 void vim_irq_complete(void)
 {
-	writel(0, VIM_BASE + VIM_IRQ_VECTOR_ADDRESS);
+	writel(0, LPM_VIM_BASE + VIM_IRQ_VECTOR_ADDRESS);
 }

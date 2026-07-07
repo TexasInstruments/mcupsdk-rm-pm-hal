@@ -4,7 +4,7 @@
 # see https://www.kernel.org/doc/Documentation/kbuild/kconfig-language.txt
 # NOTE: We ONLY support "bool"
 #
-# Copyright (c) 2024, Texas Instruments Incorporated
+# Copyright (c) 2026, Texas Instruments Incorporated
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -52,6 +52,12 @@ config LPM_DM
 	help
 	 Enable required features in the DM to support low power modes.
 
+config LPM_BOARDCFG_MANAGED
+	bool "Enable DM Low Power Mode support for boardcfg based low power mode"
+	depends on LIBRARY_BUILD_DM
+	help
+	 Enable required features in the DM to support low power modes when the modes are specified in pm boardcfg
+
 config LPM_MIN
     bool "Enable minimal Low Power Mode support"
     depends on LIBRARY_BUILD_DM
@@ -70,6 +76,12 @@ config LPM_DM_STUB
 	depends on LPM_DM
 	help
 	 Enable Low Power Mode Stub Generation
+
+config LPM_BOARDCFG_MANAGED_STUB
+	bool "Build an LPM Stub binary for boardcfg based low power mode"
+	depends on LPM_BOARDCFG_MANAGED
+	help
+	 Enable Low Power Mode Stub Generation for boardcfg based low power modes.
 
 config LNK_NSPS_BASE
 	hex "LNK_NSPS base address"

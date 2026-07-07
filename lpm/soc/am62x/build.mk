@@ -31,5 +31,5 @@
 #
 
 obj-y +=			lpm_data.o
-obj-y +=			lpscs.o
-obj-y +=			pll.o
+obj-y +=			lpm_lpscs.o
+obj-y +=			lpm_pll.o

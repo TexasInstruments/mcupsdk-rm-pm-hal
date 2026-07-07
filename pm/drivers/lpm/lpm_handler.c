@@ -270,12 +270,27 @@ static s32 lpm_resume_release_reset_of_power_master(void)
 
 	dev = device_lookup(POWER_MASTER_CLUSTER);
 	soc_device_enable(dev);
+	/* Sync software flags with hardware state only if flags were cleared during suspend */
+	dev->initialized = 1U;
+	if (dev->flags == 0U) {
+		dev->flags = DEV_FLAG_RETENTION | DEV_FLAG_POWER_ON_ENABLED;
+	}
 
 	dev = device_lookup(POWER_MASTER);
 	soc_device_enable(dev);
+	/* Sync software flags with hardware state only if flags were cleared during suspend */
+	dev->initialized = 1U;
+	if (dev->flags == 0U) {
+		dev->flags = DEV_FLAG_RETENTION | DEV_FLAG_POWER_ON_ENABLED;
+	}
 
 	dev = device_lookup(DEV_GTC);
 	soc_device_enable(dev);
+	/* Sync software flags with hardware state only if flags were cleared during suspend */
+	dev->initialized = 1U;
+	if (dev->flags == 0U) {
+		dev->flags = DEV_FLAG_RETENTION | DEV_FLAG_POWER_ON_ENABLED;
+	}
 
 	return SUCCESS;
 }
@@ -501,7 +516,7 @@ static void lpm_reset_partial_io_wake_info(void)
 	writel(WKUP_PIN_SRC_CLR, WKUP_CTRL_BASE + WKUP_PIN_SRC_REG);
 }
 
-s32 dm_prepare_sleep_handler(u32 *msg_recv)
+s32 lpm_prepare_sleep_handler(u32 *msg_recv)
 {
 	struct tisci_msg_prepare_sleep_req *req =
 		(struct tisci_msg_prepare_sleep_req *) msg_recv;
@@ -592,7 +607,7 @@ s32 dm_prepare_sleep_handler(u32 *msg_recv)
 	return ret;
 }
 
-s32 dm_enter_sleep_handler(u32 *msg_recv)
+s32 lpm_enter_sleep_handler(u32 *msg_recv)
 {
 	struct tisci_msg_enter_sleep_req *req =
 		(struct tisci_msg_enter_sleep_req *) msg_recv;
@@ -791,7 +806,7 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 	return ret;
 }
 
-s32 dm_lpm_wake_reason_handler(u32 *msg_recv)
+s32 lpm_wake_reason_handler(u32 *msg_recv)
 {
 	struct tisci_msg_lpm_wake_reason_resp *resp =
 		(struct tisci_msg_lpm_wake_reason_resp *) msg_recv;
@@ -809,7 +824,7 @@ s32 dm_lpm_wake_reason_handler(u32 *msg_recv)
 	return ret;
 }
 
-s32 dm_set_io_isolation_handler(u32 *msg_recv)
+s32 lpm_set_io_isolation_handler(u32 *msg_recv)
 {
 	struct tisci_msg_set_io_isolation_req *req =
 		(struct tisci_msg_set_io_isolation_req *) msg_recv;
@@ -907,7 +922,7 @@ s32 dm_set_io_isolation_handler(u32 *msg_recv)
 	return ret;
 }
 
-s32 dm_lpm_set_device_constraint(u32 *msg_recv)
+s32 lpm_set_device_constraint(u32 *msg_recv)
 {
 	s32 ret = SUCCESS;
 	struct tisci_msg_lpm_set_device_constraint_req *req =
@@ -945,7 +960,7 @@ s32 dm_lpm_set_device_constraint(u32 *msg_recv)
 	return ret;
 }
 
-s32 dm_lpm_get_device_constraint(u32 *msg_recv)
+s32 lpm_get_device_constraint(u32 *msg_recv)
 {
 	s32 ret = SUCCESS;
 	struct tisci_msg_lpm_get_device_constraint_req *req =
@@ -972,7 +987,7 @@ s32 dm_lpm_get_device_constraint(u32 *msg_recv)
 	return ret;
 }
 
-s32 dm_lpm_set_latency_constraint(u32 *msg_recv)
+s32 lpm_set_latency_constraint(u32 *msg_recv)
 {
 	s32 ret = SUCCESS;
 	struct tisci_msg_lpm_set_latency_constraint_req *req =
@@ -1013,7 +1028,7 @@ s32 dm_lpm_set_latency_constraint(u32 *msg_recv)
 	return ret;
 }
 
-s32 dm_lpm_get_latency_constraint(u32 *msg_recv)
+s32 lpm_get_latency_constraint(u32 *msg_recv)
 {
 	s32 ret = SUCCESS;
 	struct tisci_msg_lpm_get_latency_constraint_req *req =
@@ -1042,7 +1057,7 @@ s32 dm_lpm_get_latency_constraint(u32 *msg_recv)
 	return ret;
 }
 
-s32 dm_lpm_get_next_sys_mode(u32 *msg_recv)
+s32 lpm_get_next_sys_mode(u32 *msg_recv)
 {
 	s32 ret = SUCCESS;
 	struct tisci_msg_lpm_get_next_sys_mode_resp *resp =
@@ -1061,7 +1076,7 @@ s32 dm_lpm_get_next_sys_mode(u32 *msg_recv)
 	return ret;
 }
 
-s32 dm_lpm_get_next_host_state(u32 *msg_recv)
+s32 lpm_get_next_host_state(u32 *msg_recv)
 {
 	s32 ret = SUCCESS;
 	u8 mode;
@@ -1098,7 +1113,7 @@ s32 dm_lpm_get_next_host_state(u32 *msg_recv)
 	return ret;
 }
 
-s32 dm_lpm_abort(u32 *msg_recv)
+s32 lpm_abort(u32 *msg_recv)
 {
 	s32 ret = SUCCESS;
 	struct tisci_msg_lpm_abort_resp *resp =

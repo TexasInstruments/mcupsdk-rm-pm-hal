@@ -1,5 +1,5 @@
 /*
- * Data version: 251105_135430
+ * Data version: 260421_074444
  *
  * Copyright (C) 2017-2026 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -1018,7 +1018,7 @@ static const struct dev_data am275x_dev_rti_cfg1_wkup_dm_0 __attribute__((__sect
 static struct psc_data am275x_am275_main_psc_wrap_main_0_data __attribute__((__section__(".bss.devgroup.MAIN")));
 static const struct psc_pd_data am275x_am275_main_psc_wrap_main_0_pd_data[AM275X_PSC_PD_PD_RSVD3 + 1] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	[AM275X_PSC_PD_GP_CORE] =    {
-		.flags	= PSC_PD_EXISTS,
+		.flags	= PSC_PD_EXISTS | PSC_PD_ALWAYSON,
 	},
 	[AM275X_PSC_PD_MAIN_SRAM0] = {
 		.depends	= AM275X_PSC_PD_GP_CORE,
@@ -1889,7 +1889,7 @@ static const struct psc_drv_data am275x_dev_am275_main_psc_wrap_main_0 __attribu
 static struct psc_data am275x_sam62a_mcu_psc_wrap_wkup_0_data __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
 static const struct psc_pd_data am275x_sam62a_mcu_psc_wrap_wkup_0_pd_data[AM275X_PSC_PD_PD_MCUSS + 1] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	[AM275X_PSC_PD_GP_CORE_CTL_MCU] = {
-		.flags	= PSC_PD_EXISTS,
+		.flags	= PSC_PD_EXISTS | PSC_PD_ALWAYSON,
 	},
 	[AM275X_PSC_PD_PD_MCUSS] =	  {
 		.depends	= AM275X_PSC_PD_GP_CORE_CTL_MCU,

@@ -31,8 +31,8 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef SOC_AM62PX_LPM_DATA_H
-#define SOC_AM62PX_LPM_DATA_H
+#ifndef LPM_SOC_AM62PX_LPM_DATA_H
+#define LPM_SOC_AM62PX_LPM_DATA_H
 
 #include <config.h>
 #include <types/short_types.h>
@@ -54,4 +54,4 @@ enum {
 	WAKEUP_SOURCE_MAX,
 };
 
-#endif /* SOC_AM62PX_LPM_DATA_H */
+#endif /* LPM_SOC_AM62PX_LPM_DATA_H */

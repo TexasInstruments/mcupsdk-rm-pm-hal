@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2024, Texas Instruments Incorporated
+# Copyright (c) 2026, Texas Instruments Incorporated
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -30,25 +30,31 @@
 # EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-cppflags-$(CONFIG_LPM_DM_STUB) += -I$(srctree)/lpm/include
-cppflags-$(CONFIG_LPM_DM_STUB) += -I$(srctree)/pm/include
-cppflags-$(CONFIG_LPM_DM_STUB) += -I$(srctree)/lpm/include/soc/$(TARGET_SOC)
-cppflags-$(CONFIG_LPM_DM_STUB) += -I$(srctree)/lpm
+cppflags-$(or $(CONFIG_LPM_DM_STUB),$(CONFIG_LPM_BOARDCFG_MANAGED_STUB)) += -I$(srctree)/lpm/include
+cppflags-$(or $(CONFIG_LPM_DM_STUB),$(CONFIG_LPM_BOARDCFG_MANAGED_STUB)) += -I$(srctree)/pm/include
+cppflags-$(or $(CONFIG_LPM_DM_STUB),$(CONFIG_LPM_BOARDCFG_MANAGED_STUB)) += -I$(srctree)/lpm/include/soc/$(TARGET_SOC)
+cppflags-$(or $(CONFIG_LPM_DM_STUB),$(CONFIG_LPM_BOARDCFG_MANAGED_STUB)) += -I$(srctree)/lpm
+cppflags-$(CONFIG_LPM_BOARDCFG_MANAGED_STUB) += -I$(srctree)/include/tisci/lpm
 cppflags-$(CONFIG_LPM_32_BIT_DDR) += -I$(srctree)/lpm/cdns_generated_defines
 
-obj-y += soc/
+obj-$(or $(CONFIG_LPM_DM_STUB),$(CONFIG_LPM_BOARDCFG_MANAGED_STUB)) += soc/
 
-obj-y += main.o
-obj-y += psc_raw.o
-obj-y += pll_16fft_raw.o
-obj-y += ctrlmmr_raw.o
+obj-$(CONFIG_LPM_DM_STUB) += main.o
+obj-$(CONFIG_LPM_DM_STUB) += psc_raw.o
 obj-$(CONFIG_LPM_DM_TRACE_UART) += 8250.o
 obj-$(CONFIG_LPM_DM_TRACE_BUFFER) += lpm_trace_buffer.o
-obj-y += timeout.o
-obj-y += sec_proxy.o
-obj-y += ddr.o
-obj-y += vim_raw.o
-obj-y += lpm_string.o
-obj-y += lpm_trace.o
+obj-$(CONFIG_LPM_DM_STUB) += timeout.o
+obj-$(CONFIG_LPM_DM_STUB) += sec_proxy.o
+obj-$(CONFIG_LPM_DM_STUB) += vim_raw.o
+obj-$(CONFIG_LPM_DM_STUB) += lpm_string.o
+obj-$(CONFIG_LPM_DM_STUB) += lpm_trace.o
 obj-$(CONFIG_LPM_32_BIT_DDR) += cdns_ddr_reg_config.o
-obj-y += cache.o
+obj-$(or $(CONFIG_LPM_DM_STUB),$(CONFIG_LPM_BOARDCFG_MANAGED)) += cache.o
+
+obj-$(or $(CONFIG_LPM_DM_STUB),$(CONFIG_LPM_BOARDCFG_MANAGED_STUB)) += ctrlmmr_raw.o
+obj-$(or $(CONFIG_LPM_DM_STUB),$(CONFIG_LPM_BOARDCFG_MANAGED_STUB)) += pll_16fft_raw.o
+obj-$(or $(CONFIG_LPM_DM_STUB),$(CONFIG_LPM_BOARDCFG_MANAGED_STUB)) += ddr.o
+
+obj-$(CONFIG_LPM_BOARDCFG_MANAGED_STUB) += lpm_bcfg_main.o
+obj-$(CONFIG_LPM_BOARDCFG_MANAGED_STUB) += lpm_i2c.o
+obj-$(CONFIG_LPM_BOARDCFG_MANAGED_STUB) += lpm_pmic.o

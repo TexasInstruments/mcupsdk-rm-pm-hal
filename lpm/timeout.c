@@ -3,7 +3,7 @@
  *
  * Implementation of timeout functions
  *
- * Copyright (C) 2021-2024, Texas Instruments Incorporated
+ * Copyright (C) 2021-2026, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,7 +34,7 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #include "timeout.h"
-#include <baseaddress.h>
+#include <lpm_baseaddress.h>
 
 static void asm_func(void)
 {
@@ -44,7 +44,7 @@ static void asm_func(void)
 void delay_1us(void)
 {
 	/* This while-loop takes 2 instructions. */
-	unsigned long x = DM_R5_CORE_FREQUENCY_MHZ / 2;
+	unsigned long x = LPM_DM_R5_CORE_FREQUENCY_MHZ / 2;
 
 	while (x != 0U) {
 		x--;

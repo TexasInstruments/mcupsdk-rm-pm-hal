@@ -3458,13 +3458,13 @@ const struct clk_data soc_clock_data[274] = {
 	},
 	[CLK_AM62PX_BOARD_0_AUDIO_EXT_REFCLK0_OUT] =						{
 		.drv		= &clk_drv_from_device,
-		.flags		= 0,
+		.flags		= CLK_DATA_FLAG_MODIFY_PARENT_FREQ,
 		.data		= &clk_data_board_0_AUDIO_EXT_REFCLK0_out.data,
 		.freq_idx	= AM62PX_FREQ_VALUE_BOARD_0_AUDIO_EXT_REFCLK0_OUT,
 	},
 	[CLK_AM62PX_BOARD_0_AUDIO_EXT_REFCLK1_OUT] =						{
 		.drv		= &clk_drv_from_device,
-		.flags		= 0,
+		.flags		= CLK_DATA_FLAG_MODIFY_PARENT_FREQ,
 		.data		= &clk_data_board_0_AUDIO_EXT_REFCLK1_out.data,
 		.freq_idx	= AM62PX_FREQ_VALUE_BOARD_0_AUDIO_EXT_REFCLK1_OUT,
 	},

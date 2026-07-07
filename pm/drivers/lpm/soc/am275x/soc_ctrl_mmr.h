@@ -3,7 +3,7 @@
  *
  * am275x soc_ctrl_mmr.h
  *
- * Copyright (C) 2025, Texas Instruments Incorporated
+ * Copyright (C) 2025-2026, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -85,7 +85,7 @@ extern "C" {
 #define WKUP_PIN_SRC_REG                        WKUP_BACKUP0_REG
 #define WKUP_PIN_SRC_CLR                        (0U)
 #define WKUP_PIN_SRC_EARLY_WAKE_EVENT           BIT(8)
-#define WKUP_PIN_SRC_MASK                       0xFF
+#define WKUP_PIN_SRC_MASK                       0xFFU
 
 /* CAN IO Pin Numbers that can wakeup the SoC from partial I/O mode */
 #define CAN_IO_WKUP_PIN_NUM_START               (5U)

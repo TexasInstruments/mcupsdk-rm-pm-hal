@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2017-2020, Texas Instruments Incorporated
+# Copyright (c) 2017-2026, Texas Instruments Incorporated
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -32,5 +32,7 @@
 
 obj-y := pm/ utils/ rm/ common/
 obj-$(CONFIG_LPM_DM_STUB) := app/ lpm/
+obj-$(CONFIG_LPM_BOARDCFG_MANAGED_STUB) := lpm/
+obj-$(CONFIG_LPM_BOARDCFG_MANAGED) += lpm/
 
 

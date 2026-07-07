@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2023, Texas Instruments Incorporated
+ * Copyright (C) 2015-2026, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,6 +40,22 @@
 #include <device_pm.h>
 #include <device_clk.h>
 #include <clk.h>
+
+u32 clk_dev_set_freq(struct clk *clkp, u32 target_hz,
+		     u32 min_hz, u32 max_hz,
+		     sbool query, sbool *changed)
+{
+	const struct clk_data *clk_data_p = clk_get_data(clkp);
+	u32 ret;
+
+	if ((clk_data_p->flags & CLK_DATA_FLAG_MODIFY_PARENT_FREQ) != 0U) {
+		ret = clk_value_set_freq(clkp, target_hz, min_hz, max_hz, query, changed);
+	} else {
+		ret = 0U;
+	}
+
+	return ret;
+}
 
 static sbool clk_from_device_notify_freq(struct clk	*clkp __attribute__(
 						 (unused)),
@@ -102,6 +118,7 @@ static u32 clk_from_device_get_state(struct clk *clkp)
 
 const struct clk_drv clk_drv_from_device = {
 	.get_freq	= clk_value_get_freq,
+	.set_freq	= clk_dev_set_freq,
 	.notify_freq	= clk_from_device_notify_freq,
 	.set_state	= clk_from_device_set_state,
 	.get_state	= clk_from_device_get_state,
