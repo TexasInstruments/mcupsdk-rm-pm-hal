@@ -267,32 +267,49 @@ static s32 lpm_resume_release_reset_of_power_master(void)
 {
 	/* Release reset of power master */
 	struct device *dev;
+	s32 ret = SUCCESS;
 
 	dev = device_lookup(POWER_MASTER_CLUSTER);
-	soc_device_enable(dev);
-	/* Sync software flags with hardware state only if flags were cleared during suspend */
-	dev->initialized = 1U;
-	if (dev->flags == 0U) {
-		dev->flags = DEV_FLAG_RETENTION | DEV_FLAG_POWER_ON_ENABLED;
+	if (dev == NULL) {
+		ret = -EFAIL;
+	} else {
+		soc_device_enable(dev);
+		/* Sync software flags with hardware state only if flags were cleared during suspend */
+		dev->initialized = 1U;
+		if (dev->flags == 0U) {
+			dev->flags = DEV_FLAG_RETENTION | DEV_FLAG_POWER_ON_ENABLED;
+		}
 	}
 
-	dev = device_lookup(POWER_MASTER);
-	soc_device_enable(dev);
-	/* Sync software flags with hardware state only if flags were cleared during suspend */
-	dev->initialized = 1U;
-	if (dev->flags == 0U) {
-		dev->flags = DEV_FLAG_RETENTION | DEV_FLAG_POWER_ON_ENABLED;
+	if (ret == SUCCESS) {
+		dev = device_lookup(POWER_MASTER);
+		if (dev == NULL) {
+			ret = -EFAIL;
+		} else {
+			soc_device_enable(dev);
+			/* Sync software flags with hardware state only if flags were cleared during suspend */
+			dev->initialized = 1U;
+			if (dev->flags == 0U) {
+				dev->flags = DEV_FLAG_RETENTION | DEV_FLAG_POWER_ON_ENABLED;
+			}
+		}
 	}
 
-	dev = device_lookup(DEV_GTC);
-	soc_device_enable(dev);
-	/* Sync software flags with hardware state only if flags were cleared during suspend */
-	dev->initialized = 1U;
-	if (dev->flags == 0U) {
-		dev->flags = DEV_FLAG_RETENTION | DEV_FLAG_POWER_ON_ENABLED;
+	if (ret == SUCCESS) {
+		dev = device_lookup(DEV_GTC);
+		if (dev == NULL) {
+			ret = -EFAIL;
+		} else {
+			soc_device_enable(dev);
+			/* Sync software flags with hardware state only if flags were cleared during suspend */
+			dev->initialized = 1U;
+			if (dev->flags == 0U) {
+				dev->flags = DEV_FLAG_RETENTION | DEV_FLAG_POWER_ON_ENABLED;
+			}
+		}
 	}
 
-	return SUCCESS;
+	return ret;
 }
 
 static s32 lpm_sleep_suspend_dm(void)
@@ -1009,9 +1026,7 @@ s32 lpm_set_latency_constraint(u32 *msg_recv)
 	host_idx = host_idx_lookup(host_id);
 	if ((host_idx == HOST_IDX_NONE) || (host_idx >= HOST_ID_CNT)) {
 		ret = -EFAIL;
-	}
-
-	if (ret == SUCCESS) {
+	} else {
 		if (state == TISCI_MSG_VALUE_STATE_SET) {
 			/* If latency constraint has already been set, take the minimum */
 			if ((latency[host_idx] & LPM_RESUME_LATENCY_VALID_FLAG) == LPM_RESUME_LATENCY_VALID_FLAG) {
@@ -1046,9 +1061,7 @@ s32 lpm_get_latency_constraint(u32 *msg_recv)
 	host_idx = host_idx_lookup(host_id);
 	if ((host_idx == HOST_IDX_NONE) || (host_idx >= HOST_ID_CNT)) {
 		ret = -EFAIL;
-	}
-
-	if (ret == SUCCESS) {
+	} else {
 		/* Get latency constraint value for given host */
 		resp->state = ((latency[host_idx] & LPM_RESUME_LATENCY_VALID_FLAG) == LPM_RESUME_LATENCY_VALID_FLAG);
 		resp->resume_latency = (u16) latency[host_idx];

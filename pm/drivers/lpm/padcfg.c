@@ -1,7 +1,7 @@
 /*
  * Device Manager - Manage PADCFG Ctrl MMR during Suspend/Resume
  *
- * Copyright (C) 2021-2024, Texas Instruments Incorporated
+ * Copyright (C) 2021-2026, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -140,7 +140,9 @@ s32 lpm_sleep_save_main_padconf(sbool *wkup_en)
 			j = DIVIDE_BY_64(i);
 			/* Set the bit position for pin having wakeup enabled */
 			main_wken_data[j] |= ((u64) 1UL) << (i % NUM_BITS_U64);
-			*wkup_en = STRUE;
+			if (wkup_en != NULL) {
+				*wkup_en = STRUE;
+			}
 		}
 	}
 
@@ -163,7 +165,9 @@ s32 lpm_sleep_save_mcu_padconf(sbool *wkup_en)
 			if ((i >= MCU_CAN_PADCFG_START) && (i <= MCU_CAN_PADCFG_END)) {
 				continue;
 			} else {
-				*wkup_en = STRUE;
+				if (wkup_en != NULL) {
+					*wkup_en = STRUE;
+				}
 			}
 		}
 	}

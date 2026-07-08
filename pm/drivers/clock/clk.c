@@ -778,6 +778,7 @@ s32 clk_init(void)
 
 	for (i = 0U; i < soc_devgroup_count; i++) {
 		devgrp_t devgrp;
+		u32 clk_idx = soc_devgroups[i].clk_idx;
 
 		/* Translate compressed internal representation to bitfield */
 		if (i == PM_DEVGRP_DMSC) {
@@ -788,7 +789,7 @@ s32 clk_init(void)
 
 		/* First disabled devgroup, stop at this clock index */
 		if (enabled && !pm_devgroup_is_enabled(devgrp)) {
-			clock_count = soc_devgroups[i].clk_idx;
+			clock_count = clk_idx;
 			enabled = SFALSE;
 		}
 	}
